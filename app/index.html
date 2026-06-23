@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talan</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="background-decor">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+  </div>
+
+  <div class="container">
+    <!-- Main Login Card -->
+    <div class="login-card" id="loginCard">
+      <div class="card-header">
+        <h1 class="logo">Talan</h1>
+        <p class="subtitle">Enter credentials to access your console</p>
+      </div>
+
+      <!-- General Notification Banners (Hidden by default) -->
+      <div class="alert-banner hidden" id="rageClickBanner">
+        <div class="alert-content">
+          <span class="icon">💡</span>
+          <div>
+            <strong>Need assistance?</strong> We noticed multiple rapid attempts. <a href="#" id="resetBtn">Reset Password</a> or <a href="#" id="supportBtn">Contact Support</a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-banner info hidden" id="magicLinkBanner">
+        <div class="alert-content">
+          <span class="icon">✉️</span>
+          <div>
+            <strong>Too many failed attempts.</strong> Log in instantly via a <a href="#" id="magicLinkBtn">One-time Magic Link</a> instead.
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-banner warning hidden" id="mouseJitterBanner">
+        <div class="alert-content">
+          <span class="icon">💬</span>
+          <div>
+            <strong>Feeling stuck?</strong> Open our live chat for instant help.
+          </div>
+        </div>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="input-group">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" placeholder="name@company.com" autocomplete="username" required>
+          <div class="error-msg" id="emailError">Please enter a valid email address.</div>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+          <div class="error-msg" id="passwordError">Password must be at least 8 characters.</div>
+        </div>
+
+        <!-- Hidden inputs / state validation for tests -->
+        <div id="loginFeedback" class="login-feedback"></div>
+
+        <button type="submit" class="btn-primary" id="loginSubmit">
+          Log In
+        </button>
+
+        <div class="divider">
+          <span>or continue with Enterprise</span>
+        </div>
+
+        <!-- SSO Button (Unavailable module / frustration test target) -->
+        <button type="button" class="btn-secondary locked" id="ssoSubmit" aria-disabled="true">
+          <span class="lock-icon">🔒</span> Single Sign-On (SSO / Passkey)
+          <div class="tooltip hidden" id="ssoTooltip">
+            SSO is temporarily locked. Please use standard email & password.
+          </div>
+        </button>
+      </form>
+
+      <div class="card-footer">
+        <button type="button" class="btn-link" id="cancelButton">Cancel & Go Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reversion Confirm Modal -->
+  <div class="modal-overlay hidden" id="reversionModal">
+    <div class="modal-card">
+      <h3>Need to head back?</h3>
+      <p>Your current login session is active. If you are experiencing technical difficulties, we'd love to help you resolve them first.</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="modalContinue">Stay Here</button>
+        <button class="btn-danger" id="modalExit">Discard & Go Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Frustration Survey Overlay -->
+  <div class="modal-overlay hidden" id="surveyOverlay">
+    <div class="modal-card">
+      <h3>We noticed some friction...</h3>
+      <p>How frustrated are you feeling right now on a scale of 1 to 5?</p>
+      
+      <div class="slider-container">
+        <input type="range" id="frustrationSlider" min="1" max="5" value="3" class="slider">
+        <div class="slider-labels">
+          <span>1 (Calm)</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>5 (Highly Frustrated)</span>
+        </div>
+        <div class="rating-display" id="ratingDisplay">3/5 - Neutral / Impatient</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="surveyDismiss">Dismiss</button>
+        <button class="btn-primary" id="surveySubmit">Submit Feedback</button>
+      </div>
+      <div id="surveyFeedback" class="feedback-success hidden">Thank you for your feedback!</div>
+    </div>
+  </div>
+
+  <!-- Session Recorder Floating Controller -->
+  <div class="recorder-widget" id="recorderWidget">
+    <div class="recorder-header">
+      <h4><span>🔴</span> Session Recorder</h4>
+      <div class="recorder-status-dot" id="recorderStatusDot"></div>
+    </div>
+    <div class="recorder-body">
+      <div class="recorder-stats">
+        <span>Events: <strong id="recEventCount">0</strong></span>
+        <span>Duration: <strong id="recDuration">0.0s</strong></span>
+      </div>
+      <div class="recorder-actions">
+        <button type="button" class="btn-record start" id="recStartBtn">Start</button>
+        <button type="button" class="btn-record stop" id="recStopBtn" disabled>Stop</button>
+      </div>
+      <div class="recorder-input-group hidden" id="recSaveGroup">
+        <label for="recSessionName" style="font-size: 0.75rem; margin-top: 4px; display: block; text-align: left;">Session Name:</label>
+        <input type="text" id="recSessionName" placeholder="e.g. fast_clicks" class="recorder-input">
+        <button type="button" class="btn-primary" id="recSaveBtn" style="padding: 6px 12px; font-size: 0.8rem; margin-top: 6px; width: 100%;">Save to Test Schemes</button>
+      </div>
+      <div class="recorder-msg hidden" id="recMsg"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- DOM Elements ---
+    const loginCard = document.getElementById('loginCard');
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const loginSubmit = document.getElementById('loginSubmit');
+    const ssoSubmit = document.getElementById('ssoSubmit');
+    const ssoTooltip = document.getElementById('ssoTooltip');
+    const loginFeedback = document.getElementById('loginFeedback');
+    const cancelButton = document.getElementById('cancelButton');
+    const reversionModal = document.getElementById('reversionModal');
+    const modalContinue = document.getElementById('modalContinue');
+    const modalExit = document.getElementById('modalExit');
+
+    // Survey Elements
+    const surveyOverlay = document.getElementById('surveyOverlay');
+    const frustrationSlider = document.getElementById('frustrationSlider');
+    const ratingDisplay = document.getElementById('ratingDisplay');
+    const surveyDismiss = document.getElementById('surveyDismiss');
+    const surveySubmit = document.getElementById('surveySubmit');
+    const surveyFeedback = document.getElementById('surveyFeedback');
+
+    // Banners
+    const rageClickBanner = document.getElementById('rageClickBanner');
+    const magicLinkBanner = document.getElementById('magicLinkBanner');
+    const mouseJitterBanner = document.getElementById('mouseJitterBanner');
+
+    // Recorder DOM Elements
+    const recorderWidget = document.getElementById('recorderWidget');
+    const recStartBtn = document.getElementById('recStartBtn');
+    const recStopBtn = document.getElementById('recStopBtn');
+    const recSaveGroup = document.getElementById('recSaveGroup');
+    const recSessionName = document.getElementById('recSessionName');
+    const recSaveBtn = document.getElementById('recSaveBtn');
+    const recMsg = document.getElementById('recMsg');
+    const recEventCount = document.getElementById('recEventCount');
+    const recDuration = document.getElementById('recDuration');
+    const recorderStatusDot = document.getElementById('recorderStatusDot');
+
+    // --- State variables for Frustration Tracking ---
+    let loginSubmitClicks = [];
+    let ssoClicks = 0;
+    let ssoTooltipTimeout = null;
+    let failedAttempts = 0;
+    let backButtonClicks = 0;
+    let backButtonTimeout = null;
+    let surveySeen = false; // Survey shows once per session only
+
+    // Mouse Jitter variables
+    let mousePath = [];
+    const JITTER_MAX_SAMPLES = 20;
+    let jitterDetected = false;
+
+    // --- State variables for Session Recorder ---
+    let isRecording = false;
+    let recordingStartTime = 0;
+    let recordedEvents = [];
+    let recorderTimer = null;
+    let frustrationTriggersOccurred = {
+      rageClick: false,
+      ssoLocked: false,
+      magicLink: false,
+      mouseJitter: false,
+      backtrack: false
+    };
+
+    function recordTrigger(type) {
+      if (isRecording) {
+        frustrationTriggersOccurred[type] = true;
+        const elapsed = Date.now() - recordingStartTime;
+        recordedEvents.push({
+          type: 'trigger',
+          triggerType: type,
+          time: elapsed
+        });
+        updateRecStats();
+      }
+    }
+
+    // --- Utility: Verify email formatting ---
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // --- Survey Logic & Helpers ---
+    const ratingTexts = {
+      1: "1/5 - Very Calm",
+      2: "2/5 - Mildly Annoyed",
+      3: "3/5 - Neutral / Impatient",
+      4: "4/5 - Frustrated",
+      5: "5/5 - Extremely Frustrated"
+    };
+
+    function updateSliderLabel(val) {
+      ratingDisplay.textContent = ratingTexts[val] || `${val}/5`;
+    }
+
+    frustrationSlider.addEventListener('input', (e) => {
+      updateSliderLabel(e.target.value);
+    });
+
+    surveyDismiss.addEventListener('click', () => {
+      surveyOverlay.classList.add('hidden');
+    });
+
+    surveySubmit.addEventListener('click', () => {
+      surveyFeedback.classList.remove('hidden');
+      surveyOverlay.setAttribute('data-submitted-rating', frustrationSlider.value);
+      setTimeout(() => {
+        surveyOverlay.classList.add('hidden');
+      }, 1000);
+    });
+
+    function triggerFrustrationSurvey() {
+      // Once per session — do not re-open after the user dismisses
+      if (surveySeen) return;
+      surveySeen = true;
+      surveyOverlay.classList.remove('hidden');
+      frustrationSlider.value = 3;
+      updateSliderLabel(3);
+      surveyFeedback.classList.add('hidden');
+    }
+
+    // --- 1. Rage Clicking Detection ---
+    // Use 'pointerdown' instead of 'click' — Firefox suppresses rapid 'click'
+    // events on submit buttons because each triggers form processing, causing
+    // some clicks to be swallowed before the counter reaches 5.
+    loginSubmit.addEventListener('pointerdown', (e) => {
+      const now = Date.now();
+      // Record click time
+      loginSubmitClicks.push(now);
+      // Keep only clicks within the last 3.0 seconds
+      loginSubmitClicks = loginSubmitClicks.filter(time => now - time < 3000);
+
+      if (loginSubmitClicks.length >= 5) {
+        rageclickdetected = true; // variable tchouf rage clicking
+        recordTrigger('rageClick');
+        rageClickBanner.classList.remove('hidden');
+        rageClickBanner.scrollIntoView({ behavior: 'smooth' });
+        triggerFrustrationSurvey();
+      }
+    });
+
+    // --- 2. Rage Click module unavailable
+    ssoSubmit.addEventListener('click', (e) => {
+      ssoClicks++;
+      
+      // Clear previous timeout if user clicks rapidly
+      if (ssoTooltipTimeout) clearTimeout(ssoTooltipTimeout);
+      
+      if (ssoClicks >= 3) {
+        recordTrigger('ssoLocked');
+        ssoTooltip.textContent = "SSO is temporarily locked. Please use standard email & password.";
+        ssoTooltip.classList.remove('hidden');
+        ssoSubmit.classList.add('shake');
+        setTimeout(() => ssoSubmit.classList.remove('shake'), 500);
+        triggerFrustrationSurvey();
+      } else {
+        // Normal warning on first two clicks
+        ssoTooltip.textContent = "Passkey authentication is disabled for this organization.";
+        ssoTooltip.classList.remove('hidden');
+      }
+
+      ssoTooltipTimeout = setTimeout(() => {
+        ssoTooltip.classList.add('hidden');
+        ssoClicks = 0; // reset
+      }, 3000);
+    });
+
+    // --- 3. Repeated Login Failures ---
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Basic validation
+      let valid = true;
+      if (!isValidEmail(emailInput.value)) {
+        emailInput.classList.add('invalid');
+        emailError.classList.add('visible');
+        valid = false;
+      } else {
+        emailInput.classList.remove('invalid');
+        emailError.classList.remove('visible');
+      }
+
+      if (passwordInput.value.length < 8) {
+        passwordInput.classList.add('invalid');
+        passwordError.classList.add('visible');
+        valid = false;
+      } else {
+        passwordInput.classList.remove('invalid');
+        passwordError.classList.remove('visible');
+      }
+
+      if (!valid) {
+        // Shake the card on input validation failures (Dead Clicking response)
+        loginCard.classList.add('shake');
+        setTimeout(() => loginCard.classList.remove('shake'), 500);
+        return;
+      }
+
+      // ken admin@Talan.com / password123 tekhdem 
+      if (emailInput.value === 'admin@Talan.com' && passwordInput.value === 'password123') {
+        loginFeedback.textContent = "SUCCESS";
+        loginFeedback.className= "login-feedback success";
+        // nredirectiw
+      } else {
+        failedAttempts++;
+        loginFeedback.textContent = "Invalid username or password.";
+        loginFeedback.className = "login-feedback error";
+        
+        loginCard.classList.add('shake');
+        setTimeout(() => loginCard.classList.remove('shake'), 500);
+
+        if (failedAttempts >= 3) {
+          recordTrigger('magicLink');
+          magicLinkBanner.classList.remove('hidden');
+          magicLinkBanner.scrollIntoView({ behavior: 'smooth' });
+          triggerFrustrationSurvey();
+        }
+      }
+    });
+
+    // --- 4. Page Reversion / Backtracking ---
+    cancelButton.addEventListener('click', () => {
+      backButtonClicks++;
+      
+      if (backButtonTimeout) clearTimeout(backButtonTimeout);
+
+      if (backButtonClicks >= 3) {
+        recordTrigger('backtrack');
+        // The reversion modal IS the frustration response for backtracking.
+        // Do NOT call triggerFrustrationSurvey() here — the survey overlay
+        // is a full-screen backdrop (z-index 100) that would sit on top of
+        // the modal and intercept all pointer events, making #modalContinue
+        // unreachable. The survey can be offered separately after the modal.
+        reversionModal.classList.remove('hidden');
+        backButtonClicks = 0; // reset
+      } else {
+        // Flash warning or navigate back normally if clicked once
+        console.log("Go back clicked " + backButtonClicks);
+      }
+
+      backButtonTimeout = setTimeout(() => {
+        backButtonClicks = 0;
+      }, 2000);
+    });
+
+    modalContinue.addEventListner('click', () => {
+      reversionModal.classList.add('hidden');
+    });
+
+    modalExit.addEventListener('click', () => {
+      window.location.href = 'about:blank';
+    });
+
+    // --- 5. Mouse Jitters (erratic movements representing stress) ---
+    let lastMouseMoveTime = 0;
+    loginCard.addEventListener('mousemove', (e) => {
+      if (isRecording) {
+        const now = Date.now();
+        if (now - lastMouseMoveTime > 50) {
+          const elapsed = now - recordingStartTime;
+          recordedEvents.push({
+            type: 'mousemove',
+            time: elapsed,
+            x: e.clientX,
+            y: e.clientY
+          });
+          lastMouseMoveTime = now;
+          updateRecStats();
+        }
+      }
+
+      if (jitterDetected) return; // Trigger only once per load for demo simplicity
+
+      const currentPoint = { x: e.clientX, y: e.clientY, time: Date.now() };
+      mousePath.push(currentPoint);
+
+      if (mousePath.length > JITTER_MAX_SAMPLES) {
+        mousePath.shift();
+      }
+
+      if (mousePath.length === JITTER_MAX_SAMPLES) {
+        let totalAngleChange = 0;
+        let directionChanges = 0; //variable for any mouse jitters ( mouse goes back and forth)
+
+        for (let i = 2; i < mousePath.length; i++) {
+          const p1 = mousePath[i - 2];
+          const p2 = mousePath[i - 1];
+          const p3 = mousePath[i];
+
+          // Compute vectors
+          const v1 = { x: p2.x - p1.x, y: p2.y - p1.y };
+          const v2 = { x: p3.x - p2.x, y: p3.y - p2.y };
+
+          // Magnitudes
+          const m1 = Math.sqrt(v1.x * v1.x + v1.y * v1.y);
+          const m2 = Math.sqrt(v2.x * v2.x + v2.y * v2.y);
+
+          if (m1 > 5 && m2 > 5) { // Only count significant movements
+            // Dot product
+            const dot = v1.x * v2.x + v1.y * v2.y;
+            // Cosine of angle
+            const cosTheta = Math.max(-1, Math.min(1, dot / (m1 * m2)));
+            const angle = Math.acos(cosTheta) * (180 / Math.PI);
+            
+            // If angle is large, it's a sharp direction switch
+            if (angle > 110) { 
+              directionChanges++;
+            }
+          }
+        }
+
+        // If mouse changes direction sharply 4+ times within a brief slice, it's shaking/jittering
+        if (directionChanges >= 5) {
+          jitterDetected = true; // variable tchouf mouse movement 
+          recordTrigger('mouseJitter');
+          mouseJitterBanner.classList.remove('hidden');
+          mouseJitterBanner.scrollIntoView({ behavior: 'smooth' });
+          triggerFrustrationSurvey(); // hedha survey nejmou nestaamlouh ka reinforcment lel ai model mteena
+        }
+      }
+    });
+
+    // --- Session Recorder Controller Logic ---
+    function updateRecStats() {
+      recEventCount.textContent = recordedEvents.length;
+    }
+
+    function startTimer() {
+      recordingStartTime = Date.now();
+      recorderTimer = setInterval(() => {
+        const elapsed = (Date.now() - recordingStartTime) / 1000;
+        recDuration.textContent = elapsed.toFixed(1) + 's';
+      }, 100);
+    }
+
+    function stopTimer() {
+      if (recorderTimer) {
+        clearInterval(recorderTimer);
+        recorderTimer = null;
+      }
+    }
+
+    recStartBtn.addEventListener('click', () => {
+      isRecording = true;
+      recordedEvents = [];
+      frustrationTriggersOccurred = {
+        rageClick: false,
+        ssoLocked: false,
+        magicLink: false,
+        mouseJitter: false,
+        backtrack: false
+      };
+      
+      updateRecStats();
+      startTimer();
+      
+      recStartBtn.disabled = true;
+      recStopBtn.disabled = false;
+      recSaveGroup.classList.add('hidden');
+      recMsg.classList.add('hidden');
+      recorderStatusDot.classList.add('recording');
+      
+      console.log('Session recording started');
+    });
+
+    recStopBtn.addEventListener('click', () => {
+      isRecording = false;
+      stopTimer();
+      
+      recStartBtn.disabled = false;
+      recStopBtn.disabled = true;
+      recSaveGroup.classList.remove('hidden');
+      recorderStatusDot.classList.remove('recording');
+      
+      console.log('Session recording stopped. Recorded events:', recordedEvents.length);
+    });
+
+    recSaveBtn.addEventListener('click', () => {
+      const name = recSessionName.value.trim();
+      if (!name) {
+        showRecMsg('Please enter a session name.', 'error');
+        return;
+      }
+      
+      const payload = {
+        name: name,
+        durationMs: Date.now() - recordingStartTime,
+        frustrationDetected: frustrationTriggersOccurred,
+        events: recordedEvents
+      };
+      
+      recSaveBtn.disabled = true;
+      showRecMsg('Saving...', '');
+      
+      fetch('/api/record', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        recSaveBtn.disabled = false;
+        if (data.success) {
+          showRecMsg('Session saved successfully!', 'success');
+          recSessionName.value = '';
+          setTimeout(() => {
+            recSaveGroup.classList.add('hidden');
+            recMsg.classList.add('hidden');
+          }, 3000);
+        } else {
+          showRecMsg('Error: ' + (data.error || 'Failed to save'), 'error');
+        }
+      })
+      .catch(err => {
+        recSaveBtn.disabled = false;
+        showRecMsg('Network error saving session', 'error');
+        console.error(err);
+      });
+    });
+
+    function showRecMsg(txt, type) {
+      recMsg.textContent = txt;
+      recMsg.className = 'recorder-msg ' + type;
+      recMsg.classList.remove('hidden');
+    }
+
+    // Capture Clicks globally on document
+    document.addEventListener('pointerdown', (e) => {
+      if (!isRecording) return;
+      
+      // Ignore clicks inside the recorder widget itself
+      if (recorderWidget.contains(e.target)) return;
+      
+      const elapsed = Date.now() - recordingStartTime;
+      const id = e.target.id;
+      
+      recordedEvents.push({
+        type: 'click',
+        target: id ? `#${id}` : e.target.tagName.toLowerCase(),
+        time: elapsed,
+        x: e.clientX,
+        y: e.clientY
+      });
+      updateRecStats();
+    });
+
+    // Capture Input events
+    const recordInput = (e) => {
+      if (isRecording) {
+        const elapsed = Date.now() - recordingStartTime;
+        recordedEvents.push({
+          type: 'input',
+          target: `#${e.target.id}`,
+          time: elapsed,
+          valueLength: e.target.value.length
+        });
+        updateRecStats();
+      }
+    };
+    emailInput.addEventListener('input', recordInput);
+    passwordInput.addEventListener('input', recordInput);
+  </script>
+</body>
+</html>
