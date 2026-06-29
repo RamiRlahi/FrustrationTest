@@ -1,0 +1,662 @@
+{
+  "name": "session",
+  "durationMs": 26266,
+  "frustrationDetected": {
+    "rageClick": true,
+    "ssoLocked": true,
+    "magicLink": false,
+    "mouseJitter": true,
+    "backtrack": false
+  },
+  "events": [
+    {
+      "type": "mousemove",
+      "time": 620,
+      "x": 1056,
+      "y": 638
+    },
+    {
+      "type": "mousemove",
+      "time": 671,
+      "x": 1012,
+      "y": 550
+    },
+    {
+      "type": "mousemove",
+      "time": 853,
+      "x": 1114,
+      "y": 683
+    },
+    {
+      "type": "mousemove",
+      "time": 904,
+      "x": 930,
+      "y": 743
+    },
+    {
+      "type": "mousemove",
+      "time": 1087,
+      "x": 1171,
+      "y": 578
+    },
+    {
+      "type": "mousemove",
+      "time": 1153,
+      "x": 1005,
+      "y": 750
+    },
+    {
+      "type": "mousemove",
+      "time": 1304,
+      "x": 1122,
+      "y": 539
+    },
+    {
+      "type": "mousemove",
+      "time": 1370,
+      "x": 897,
+      "y": 703
+    },
+    {
+      "type": "trigger",
+      "triggerType": "mouseJitter",
+      "time": 1370
+    },
+    {
+      "type": "click",
+      "target": "div",
+      "time": 2829,
+      "x": 1137.60009765625,
+      "y": 471.20001220703125
+    },
+    {
+      "type": "click",
+      "target": "#frustrationSlider",
+      "time": 4082,
+      "x": 1133.3333740234375,
+      "y": 460.5333557128906
+    },
+    {
+      "type": "click",
+      "target": "#frustrationSlider",
+      "time": 4310,
+      "x": 1133.3333740234375,
+      "y": 460.5333557128906
+    },
+    {
+      "type": "click",
+      "target": "#surveySubmit",
+      "time": 5500,
+      "x": 1082.1334228515625,
+      "y": 585.3333740234375
+    },
+    {
+      "type": "mousemove",
+      "time": 6623,
+      "x": 1035,
+      "y": 624
+    },
+    {
+      "type": "mousemove",
+      "time": 6687,
+      "x": 1026,
+      "y": 623
+    },
+    {
+      "type": "mousemove",
+      "time": 6753,
+      "x": 1013,
+      "y": 618
+    },
+    {
+      "type": "mousemove",
+      "time": 6804,
+      "x": 1008,
+      "y": 615
+    },
+    {
+      "type": "mousemove",
+      "time": 6870,
+      "x": 1003,
+      "y": 613
+    },
+    {
+      "type": "mousemove",
+      "time": 6937,
+      "x": 1001,
+      "y": 612
+    },
+    {
+      "type": "mousemove",
+      "time": 7371,
+      "x": 992,
+      "y": 580
+    },
+    {
+      "type": "mousemove",
+      "time": 7440,
+      "x": 965,
+      "y": 396
+    },
+    {
+      "type": "mousemove",
+      "time": 7504,
+      "x": 965,
+      "y": 398
+    },
+    {
+      "type": "mousemove",
+      "time": 7555,
+      "x": 965,
+      "y": 416
+    },
+    {
+      "type": "mousemove",
+      "time": 7615,
+      "x": 966,
+      "y": 533
+    },
+    {
+      "type": "mousemove",
+      "time": 7704,
+      "x": 965,
+      "y": 550
+    },
+    {
+      "type": "mousemove",
+      "time": 7789,
+      "x": 965,
+      "y": 553
+    },
+    {
+      "type": "mousemove",
+      "time": 7854,
+      "x": 965,
+      "y": 556
+    },
+    {
+      "type": "mousemove",
+      "time": 7920,
+      "x": 965,
+      "y": 558
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 7983,
+      "x": 965.86669921875,
+      "y": 559.7333374023438
+    },
+    {
+      "type": "click",
+      "target": "#loginForm",
+      "time": 8394,
+      "x": 965.86669921875,
+      "y": 559.7333374023438
+    },
+    {
+      "type": "mousemove",
+      "time": 8854,
+      "x": 965,
+      "y": 561
+    },
+    {
+      "type": "mousemove",
+      "time": 8920,
+      "x": 968,
+      "y": 568
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 8942,
+      "x": 969.0667114257812,
+      "y": 570.4000244140625
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 9216,
+      "x": 969.0667114257812,
+      "y": 570.4000244140625
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 9463,
+      "x": 969.0667114257812,
+      "y": 570.4000244140625
+    },
+    {
+      "type": "trigger",
+      "triggerType": "rageClick",
+      "time": 9709
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 9711,
+      "x": 969.0667114257812,
+      "y": 570.4000244140625
+    },
+    {
+      "type": "click",
+      "target": "#password",
+      "time": 9924,
+      "x": 969.0667114257812,
+      "y": 570.4000244140625
+    },
+    {
+      "type": "mousemove",
+      "time": 10271,
+      "x": 970,
+      "y": 573
+    },
+    {
+      "type": "mousemove",
+      "time": 10336,
+      "x": 972,
+      "y": 588
+    },
+    {
+      "type": "mousemove",
+      "time": 10387,
+      "x": 973,
+      "y": 599
+    },
+    {
+      "type": "mousemove",
+      "time": 10454,
+      "x": 974,
+      "y": 610
+    },
+    {
+      "type": "mousemove",
+      "time": 10505,
+      "x": 975,
+      "y": 618
+    },
+    {
+      "type": "mousemove",
+      "time": 10561,
+      "x": 975,
+      "y": 625
+    },
+    {
+      "type": "mousemove",
+      "time": 10621,
+      "x": 976,
+      "y": 632
+    },
+    {
+      "type": "mousemove",
+      "time": 10706,
+      "x": 977,
+      "y": 636
+    },
+    {
+      "type": "trigger",
+      "triggerType": "rageClick",
+      "time": 10715
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 10715,
+      "x": 977.6000366210938,
+      "y": 636.5333862304688
+    },
+    {
+      "type": "trigger",
+      "triggerType": "rageClick",
+      "time": 10977
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 10978,
+      "x": 977.6000366210938,
+      "y": 636.5333862304688
+    },
+    {
+      "type": "trigger",
+      "triggerType": "rageClick",
+      "time": 11209
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 11210,
+      "x": 977.6000366210938,
+      "y": 636.5333862304688
+    },
+    {
+      "type": "trigger",
+      "triggerType": "rageClick",
+      "time": 11447
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 11448,
+      "x": 977.6000366210938,
+      "y": 636.5333862304688
+    },
+    {
+      "type": "trigger",
+      "triggerType": "rageClick",
+      "time": 11696
+    },
+    {
+      "type": "click",
+      "target": "#loginSubmit",
+      "time": 11697,
+      "x": 977.6000366210938,
+      "y": 636.5333862304688
+    },
+    {
+      "type": "mousemove",
+      "time": 12121,
+      "x": 976,
+      "y": 634
+    },
+    {
+      "type": "mousemove",
+      "time": 12389,
+      "x": 975,
+      "y": 640
+    },
+    {
+      "type": "mousemove",
+      "time": 12453,
+      "x": 968,
+      "y": 718
+    },
+    {
+      "type": "mousemove",
+      "time": 12504,
+      "x": 966,
+      "y": 731
+    },
+    {
+      "type": "mousemove",
+      "time": 12570,
+      "x": 965,
+      "y": 736
+    },
+    {
+      "type": "mousemove",
+      "time": 12628,
+      "x": 963,
+      "y": 737
+    },
+    {
+      "type": "mousemove",
+      "time": 12721,
+      "x": 962,
+      "y": 742
+    },
+    {
+      "type": "mousemove",
+      "time": 12803,
+      "x": 962,
+      "y": 748
+    },
+    {
+      "type": "click",
+      "target": "#ssoSubmit",
+      "time": 12840,
+      "x": 963.7333984375,
+      "y": 750.6666870117188
+    },
+    {
+      "type": "click",
+      "target": "#ssoSubmit",
+      "time": 13313,
+      "x": 963.7333984375,
+      "y": 750.6666870117188
+    },
+    {
+      "type": "click",
+      "target": "#ssoSubmit",
+      "time": 13546,
+      "x": 963.7333984375,
+      "y": 750.6666870117188
+    },
+    {
+      "type": "trigger",
+      "triggerType": "ssoLocked",
+      "time": 13693
+    },
+    {
+      "type": "click",
+      "target": "#ssoSubmit",
+      "time": 13815,
+      "x": 963.7333984375,
+      "y": 750.6666870117188
+    },
+    {
+      "type": "trigger",
+      "triggerType": "ssoLocked",
+      "time": 13926
+    },
+    {
+      "type": "mousemove",
+      "time": 14221,
+      "x": 965,
+      "y": 759
+    },
+    {
+      "type": "mousemove",
+      "time": 14287,
+      "x": 975,
+      "y": 802
+    },
+    {
+      "type": "mousemove",
+      "time": 14354,
+      "x": 977,
+      "y": 813
+    },
+    {
+      "type": "mousemove",
+      "time": 14420,
+      "x": 977,
+      "y": 820
+    },
+    {
+      "type": "mousemove",
+      "time": 14503,
+      "x": 977,
+      "y": 827
+    },
+    {
+      "type": "mousemove",
+      "time": 14570,
+      "x": 979,
+      "y": 834
+    },
+    {
+      "type": "mousemove",
+      "time": 14623,
+      "x": 980,
+      "y": 840
+    },
+    {
+      "type": "mousemove",
+      "time": 14686,
+      "x": 982,
+      "y": 843
+    },
+    {
+      "type": "mousemove",
+      "time": 14754,
+      "x": 986,
+      "y": 840
+    },
+    {
+      "type": "mousemove",
+      "time": 14821,
+      "x": 988,
+      "y": 834
+    },
+    {
+      "type": "mousemove",
+      "time": 14891,
+      "x": 990,
+      "y": 829
+    },
+    {
+      "type": "mousemove",
+      "time": 14971,
+      "x": 991,
+      "y": 824
+    },
+    {
+      "type": "mousemove",
+      "time": 15037,
+      "x": 992,
+      "y": 822
+    },
+    {
+      "type": "mousemove",
+      "time": 15154,
+      "x": 993,
+      "y": 821
+    },
+    {
+      "type": "mousemove",
+      "time": 15221,
+      "x": 1069,
+      "y": 831
+    },
+    {
+      "type": "click",
+      "target": "body",
+      "time": 15715,
+      "x": 1585.6002197265625,
+      "y": 746.4000244140625
+    },
+    {
+      "type": "mousemove",
+      "time": 16070,
+      "x": 1144,
+      "y": 469
+    },
+    {
+      "type": "mousemove",
+      "time": 16139,
+      "x": 1001,
+      "y": 392
+    },
+    {
+      "type": "mousemove",
+      "time": 16204,
+      "x": 943,
+      "y": 359
+    },
+    {
+      "type": "mousemove",
+      "time": 16272,
+      "x": 937,
+      "y": 351
+    },
+    {
+      "type": "mousemove",
+      "time": 16339,
+      "x": 936,
+      "y": 347
+    },
+    {
+      "type": "mousemove",
+      "time": 16437,
+      "x": 934,
+      "y": 346
+    },
+    {
+      "type": "mousemove",
+      "time": 16488,
+      "x": 932,
+      "y": 346
+    },
+    {
+      "type": "mousemove",
+      "time": 16559,
+      "x": 931,
+      "y": 347
+    },
+    {
+      "type": "click",
+      "target": "strong",
+      "time": 16561,
+      "x": 931.7333984375,
+      "y": 347.4666748046875
+    },
+    {
+      "type": "mousemove",
+      "time": 16787,
+      "x": 914,
+      "y": 347
+    },
+    {
+      "type": "mousemove",
+      "time": 16853,
+      "x": 862,
+      "y": 343
+    },
+    {
+      "type": "mousemove",
+      "time": 16904,
+      "x": 856,
+      "y": 340
+    },
+    {
+      "type": "mousemove",
+      "time": 16970,
+      "x": 854,
+      "y": 335
+    },
+    {
+      "type": "mousemove",
+      "time": 17022,
+      "x": 877,
+      "y": 330
+    },
+    {
+      "type": "mousemove",
+      "time": 17087,
+      "x": 1150,
+      "y": 314
+    },
+    {
+      "type": "mousemove",
+      "time": 17153,
+      "x": 1043,
+      "y": 425
+    },
+    {
+      "type": "mousemove",
+      "time": 17270,
+      "x": 826,
+      "y": 534
+    },
+    {
+      "type": "mousemove",
+      "time": 17421,
+      "x": 995,
+      "y": 591
+    },
+    {
+      "type": "mousemove",
+      "time": 17488,
+      "x": 1051,
+      "y": 497
+    },
+    {
+      "type": "mousemove",
+      "time": 17603,
+      "x": 1126,
+      "y": 578
+    }
+  ]
+}

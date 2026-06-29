@@ -13,6 +13,7 @@
 const { spawn } = require('child_process');
 const http      = require('http');
 const path      = require('path');
+const fs        = require('fs');
 const { launchSandbox } = require('./sandbox');
 const attacks   = require('./adversary');
 
@@ -138,6 +139,7 @@ async function main() {
   }
 
   let chromiumPassed = false;
+  let firefoxResults = [];
 
   try {
     // ── Chromium (required) ──────────────────────────────────────────────────
@@ -148,7 +150,7 @@ async function main() {
     // ── Firefox (optional) ───────────────────────────────────────────────────
     console.log(`  Running ${ATTACKS.length} attacks on ${C.bold}Firefox${C.reset} (optional)...`);
     try {
-      const firefoxResults = await runAttacks('firefox');
+      firefoxResults = await runAttacks('firefox');
       const ffPassed = printReport(firefoxResults, 'Firefox', true);
       if (!ffPassed) {
         console.log(`  ${C.yellow}⚠  Firefox failures noted — non-blocking${C.reset}\n`);
@@ -170,6 +172,11 @@ async function main() {
     console.log(`${C.bold}${C.red}  ✗  Chromium attacks failed — frustration model has edge-case gaps${C.reset}`);
   }
   console.log(`${'═'.repeat(62)}\n`);
+
+  const reportPath = path.join(__dirname, '..', '..', 'test-results', 'adversary-report.json');
+  fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+  fs.writeFileSync(reportPath, JSON.stringify({ chromiumPassed, chromiumResults: chromiumResults || [], firefoxResults: typeof firefoxResults !== 'undefined' ? firefoxResults : [] }, null, 2));
+  console.log(`  ${C.cyan}Detailed JSON report saved to ${reportPath}${C.reset}\n`);
 
   process.exit(chromiumPassed ? 0 : 1);
 }

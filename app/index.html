@@ -408,7 +408,20 @@
     });
 
     modalExit.addEventListener('click', () => {
-      window.location.href = 'about:blank';
+      if (isRecording) {
+        // Stop the recording visually
+        recStopBtn.click();
+        // Trigger save with an auto-generated name
+        recSessionName.value = 'canceled_session_' + Date.now();
+        recSaveBtn.click();
+        
+        // Wait briefly for the fetch to fire before navigating away
+        setTimeout(() => {
+          window.location.href = 'about:blank';
+        }, 300);
+      } else {
+        window.location.href = 'about:blank';
+      }
     });
 
     // --- 5. Mouse Jitters (erratic movements representing stress) ---
@@ -536,10 +549,11 @@
     });
 
     recSaveBtn.addEventListener('click', () => {
-      const name = recSessionName.value.trim();
+      let name = recSessionName.value.trim();
       if (!name) {
-        showRecMsg('Please enter a session name.', 'error');
-        return;
+        // Automatically assign a name with a timestamp if left blank
+        name = 'session_' + Date.now();
+        recSessionName.value = name; 
       }
       
       const payload = {

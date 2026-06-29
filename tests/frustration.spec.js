@@ -17,7 +17,7 @@ test('1. Should detect Rage Clicking (fast clicks) on submit button', async ({ p
 
   // Click rapidly 5 times
   for (let i = 0; i < 5; i++) {
-    await submitBtn.click({ force: true });
+    await submitBtn.dispatchEvent('pointerdown');
   }
 
   // Verify assistance banner is displayed
@@ -128,7 +128,7 @@ test('6. Should display frustration survey overlay and allow submitting a rating
 
   // Trigger frustration via rage clicking
   for (let i = 0; i < 5; i++) {
-    await submitBtn.click({ force: true });
+    await submitBtn.dispatchEvent('pointerdown');
   }
 
   // Survey overlay should be visible
