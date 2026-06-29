@@ -39,7 +39,7 @@ Command:
 npm.cmd run adversary
 ```
 
-Result:
+Result (expected):
 
 - Chromium: 12 / 12 attacks passed.
 - Firefox optional pass: 12 / 12 attacks passed.
