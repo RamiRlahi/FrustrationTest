@@ -139,12 +139,13 @@ async function main() {
   }
 
   let chromiumPassed = false;
+  let chromiumResults = [];
   let firefoxResults = [];
 
   try {
     // ── Chromium (required) ──────────────────────────────────────────────────
     console.log(`  Running ${ATTACKS.length} attacks on ${C.bold}Chromium${C.reset}...`);
-    const chromiumResults = await runAttacks('chromium');
+    chromiumResults = await runAttacks('chromium');
     chromiumPassed = printReport(chromiumResults, 'Chromium');
 
     // ── Firefox (optional) ───────────────────────────────────────────────────

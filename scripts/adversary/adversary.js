@@ -144,19 +144,19 @@ async function ssoExactThreshold(page) {
 // Fail twice then succeed with valid credentials.
 // Magic link banner must stay hidden (only 2 failures, threshold = 3).
 async function loginFailThenSucceed(page) {
-  const email = page.locator('#email');
+  const username = page.locator('#username');
   const password = page.locator('#password');
   const submit = page.locator('#loginSubmit');
 
   for (let i = 0; i < 2; i++) {
-    await email.fill('adversary@acme.com');
+    await username.fill('adversary');
     await password.fill('BadPassw0rd!');
     await submit.click();
     await page.waitForTimeout(600);
   }
 
-  await email.fill('admin@Talan.com');
-  await password.fill('password123');
+  await username.fill('Admin');
+  await password.fill('admin123');
   await submit.click();
   await page.waitForTimeout(400);
 
@@ -174,12 +174,12 @@ async function loginFailThenSucceed(page) {
 // ─── 7. loginFailExactThreshold [POSITIVE] ───────────────────────────────────
 // Fail exactly 3 times — model must offer the magic link banner.
 async function loginFailExactThreshold(page) {
-  const email = page.locator('#email');
+  const username = page.locator('#username');
   const password = page.locator('#password');
   const submit = page.locator('#loginSubmit');
 
   for (let i = 0; i < 3; i++) {
-    await email.fill('adversary@acme.com');
+    await username.fill('adversary');
     await password.fill('BadPassw0rd!');
     await submit.click();
     await page.waitForTimeout(600);

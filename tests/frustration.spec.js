@@ -47,7 +47,7 @@ test('2. Should detect Rage Clicking on the locked SSO module', async ({ page })
 });
 
 test('3. Should detect Repeated Login Failures and offer Magic Link', async ({ page }) => {
-  const emailInput = page.locator('#email');
+  const usernameInput = page.locator('#username');
   const passwordInput = page.locator('#password');
   const submitBtn = page.locator('#loginSubmit');
   const magicLinkBanner = page.locator('#magicLinkBanner');
@@ -56,8 +56,8 @@ test('3. Should detect Repeated Login Failures and offer Magic Link', async ({ p
 
   // Enter bad credentials and submit 3 times
   for (let i = 0; i < 3; i++) {
-    await emailInput.fill('baduser@acme.com');
-    await passwordInput.fill('WrongPassword123');
+    await usernameInput.fill('baduser');
+    await passwordInput.fill('WrongPassword');
     await submitBtn.click();
     
     // Wait for shake animation to finish to ensure we click correctly

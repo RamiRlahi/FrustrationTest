@@ -1,11 +1,7 @@
 # Talan Frustration Detection Demo
 
 A small Node.js and Playwright project that demonstrates a login interface with user-frustration detection patterns, feedback prompts, session recording, and adversarial browser tests.
-
-The app presents a Talan-style login screen and detects several frustration signals, including rapid submit clicks, repeated failed logins, repeated locked SSO clicks, erratic mouse movement, and repeated cancel/backtracking attempts.
-
 ## Features
-
 - Login form with validation and demo credentials
 - Frustration detection banners for rage clicks, failed attempts, SSO friction, and mouse jitter
 - Frustration survey overlay with a 1-5 rating slider
@@ -14,16 +10,12 @@ The app presents a Talan-style login screen and detects several frustration sign
 - Recording API that saves session JSON files locally
 - Playwright end-to-end tests for the main frustration behaviors
 - Adversarial audit runner with boundary, reset, positive, negative, and recovery checks
-
 ## Tech Stack
-
 - Node.js
 - Native `http` server
 - HTML, CSS, and vanilla JavaScript
 - Playwright Test
-
 ## Project Structure
-
 ```text
 .
 |-- app/
@@ -41,16 +33,10 @@ The app presents a Talan-style login screen and detects several frustration sign
 |-- playwright.config.js    # Playwright configuration
 `-- package.json
 ```
-
 ## Getting Started
-
-Install dependencies:
-
 ```bash
 npm install
 ```
-
-If Playwright browsers are not installed yet, install them:
 
 ```bash
 npx playwright install
@@ -61,9 +47,7 @@ Start the local server:
 ```bash
 npm run start
 ```
-
 Open the app at:
-
 ```text
 http://localhost:3000
 ```
