@@ -1,0 +1,25 @@
+{
+  "name": "test_gherkin_session",
+  "durationMs": 226,
+  "frustrationDetected": {
+    "rageClick": false,
+    "ssoLocked": false,
+    "magicLink": false,
+    "mouseJitter": false,
+    "backtrack": false
+  },
+  "events": [
+    {
+      "type": "input",
+      "target": "#username",
+      "time": 61,
+      "valueLength": 16
+    },
+    {
+      "type": "input",
+      "target": "#password",
+      "time": 80,
+      "valueLength": 11
+    }
+  ]
+}
