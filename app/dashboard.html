@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrangeHRM - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================
+       ORANGEHRM DASHBOARD & APP LAYOUT STYLES
+       ========================================== */
+    body {
+      background-color: #f6f8fb;
+      display: block;
+      min-height: 100vh;
+    }
+
+    .oxd-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar Navigation */
+    .oxd-sidepanel {
+      width: 240px;
+      background-color: #ffffff;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.25s ease;
+      z-index: 100;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.03);
+    }
+
+    .oxd-sidepanel-header {
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .oxd-sidepanel-logo {
+      height: 40px;
+      width: auto;
+    }
+
+    .oxd-main-menu {
+      list-style: none;
+      padding: 1rem 0.75rem;
+      margin: 0;
+      flex: 1;
+    }
+
+    .oxd-main-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .oxd-main-menu-item:hover {
+      background-color: #fff7ed;
+      color: #ff791a;
+    }
+
+    .oxd-main-menu-item.active {
+      background: linear-gradient(135deg, #ff791a 0%, #eb5a00 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(255, 121, 26, 0.25);
+    }
+
+    .oxd-main-menu-icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Main Content Wrapper */
+    .oxd-layout-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top Navbar */
+    .oxd-topbar {
+      height: 64px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .oxd-topbar-header-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .oxd-topbar-userarea {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .oxd-userdropdown {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: background-color 0.2s;
+    }
+
+    .oxd-userdropdown:hover {
+      background-color: #f8fafc;
+    }
+
+    .oxd-userdropdown-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ff791a;
+    }
+
+    .oxd-userdropdown-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* Dashboard Content Grid */
+    .oxd-layout-context {
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .oxd-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .oxd-sheet {
+      background-color: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .oxd-sheet-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .oxd-sheet-title span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Quick Launch Icons Grid */
+    .quick-launch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .quick-launch-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0.5rem;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      text-decoration: none;
+      color: #475569;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .quick-launch-item:hover {
+      background-color: #fff7ed;
+      border-color: #ff791a;
+      color: #ff791a;
+      transform: translateY(-2px);
+    }
+
+    .quick-launch-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 8px;
+      fill: #ff791a;
+    }
+
+    .quick-launch-text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* My Actions List */
+    .action-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.85rem;
+    }
+
+    .action-item:last-child {
+      border-bottom: none;
+    }
+
+    .action-badge {
+      background-color: #fff7ed;
+      color: #ff791a;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+    }
+
+    /* Employee Progress Bars */
+    .progress-bar-group {
+      margin-bottom: 1rem;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: #475569;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .progress-bg {
+      height: 8px;
+      background-color: #f1f5f9;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff791a 0%, #eb5a00 100%);
+      border-radius: 4px;
+    }
+
+    /* Punch Card */
+    .punch-container {
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .punch-clock {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .punch-status {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .btn-punch {
+      background: linear-gradient(135deg, #ff791a 0%, #eb5a00 100%);
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 121, 26, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-punch:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 121, 26, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="oxd-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="oxd-sidepanel">
+      <div class="oxd-sidepanel-header">
+        <img src="images/ohrm_branding.png" alt="OrangeHRM Logo" class="oxd-sidepanel-logo">
+      </div>
+      <ul class="oxd-main-menu">
+        <li>
+          <a href="#" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+            <span>Admin</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>PIM</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+            <span>Leave</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            <span>Time</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+            <span>Recruitment</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>My Info</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="oxd-main-menu-item active">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4-6H3c-.55 0-1 .45-1 1v14l4-4h11c.55 0 1-.45 1-1V1c0-.55-.45-1-1-1z"/></svg>
+            <span>Buzz</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Container -->
+    <div class="oxd-layout-container">
+
+      <!-- Topbar Header -->
+      <header class="oxd-topbar">
+        <h2 class="oxd-topbar-header-title">Dashboard</h2>
+        <div class="oxd-topbar-userarea">
+          <div class="oxd-userdropdown" id="userDropdown">
+            <img src="images/default-photo.png" alt="Profile" class="oxd-userdropdown-img">
+            <span class="oxd-userdropdown-name">Paul Collings</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="#64748b"><path d="M7 10l5 5 5-5z"/></svg>
+          </div>
+          <button type="button" class="btn-link" id="logoutBtn" style="color: #ef4444; font-weight: 700;">Logout</button>
+        </div>
+      </header>
+
+      <!-- Dashboard Grid Content -->
+      <main class="oxd-layout-context">
+        <div class="oxd-grid-3">
+
+          <!-- Time at Work Widget -->
+          <div class="oxd-sheet">
+            <div class="oxd-sheet-title">
+              <span>⏱️ Time at Work</span>
+            </div>
+            <div class="punch-container">
+              <div class="punch-clock" id="liveClock">09:30 AM</div>
+              <div class="punch-status">Logged in as Admin (PUNCHED IN)</div>
+              <button class="btn-punch" id="punchBtn">Punch Out</button>
+            </div>
+          </div>
+
+          <!-- My Actions Widget -->
+          <div class="oxd-sheet">
+            <div class="oxd-sheet-title">
+              <span>⚡ My Actions</span>
+            </div>
+            <div class="action-item">
+              <span>Pending Leave Requests</span>
+              <span class="action-badge">(3) Pending</span>
+            </div>
+            <div class="action-item">
+              <span>Timesheets to Approve</span>
+              <span class="action-badge">(5) Pending</span>
+            </div>
+            <div class="action-item">
+              <span>Candidate Reviews</span>
+              <span class="action-badge">(2) To Review</span>
+            </div>
+          </div>
+
+          <!-- Quick Launch Widget -->
+          <div class="oxd-sheet">
+            <div class="oxd-sheet-title">
+              <span>🚀 Quick Launch</span>
+            </div>
+            <div class="quick-launch-grid">
+              <div class="quick-launch-item">
+                <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <span class="quick-launch-text">Assign Leave</span>
+              </div>
+              <div class="quick-launch-item">
+                <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+                <span class="quick-launch-text">Leave List</span>
+              </div>
+              <div class="quick-launch-item">
+                <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2z"/></svg>
+                <span class="quick-launch-text">Timesheets</span>
+              </div>
+              <div class="quick-launch-item">
+                <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg>
+                <span class="quick-launch-text">Apply Leave</span>
+              </div>
+              <div class="quick-launch-item">
+                <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                <span class="quick-launch-text">My Leave</span>
+              </div>
+              <div class="quick-launch-item">
+                <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3z"/></svg>
+                <span class="quick-launch-text">My Timesheet</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Employee Distribution Subunit Widget -->
+          <div class="oxd-sheet">
+            <div class="oxd-sheet-title">
+              <span>📊 Employee Distribution by Subunit</span>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-info">
+                <span>Engineering & IT</span>
+                <span>45%</span>
+              </div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 45%;"></div></div>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-info">
+                <span>Human Resources</span>
+                <span>25%</span>
+              </div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 25%;"></div></div>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-info">
+                <span>Sales & Marketing</span>
+                <span>20%</span>
+              </div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 20%;"></div></div>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-info">
+                <span>Finance</span>
+                <span>10%</span>
+              </div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 10%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Employee Location Distribution Widget -->
+          <div class="oxd-sheet">
+            <div class="oxd-sheet-title">
+              <span>🌍 Employees by Location</span>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-info">
+                <span>Texas R&D Center</span>
+                <span>60%</span>
+              </div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 60%; background: #38bdf8;"></div></div>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-info">
+                <span>New York HQ</span>
+                <span>25%</span>
+              </div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 25%; background: #38bdf8;"></div></div>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-info">
+                <span>London Office</span>
+                <span>15%</span>
+              </div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 15%; background: #38bdf8;"></div></div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Live clock script
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('liveClock').textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Logout button
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

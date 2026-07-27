@@ -1,6 +1,6 @@
 {
   "name": "test_gherkin_session",
-  "durationMs": 226,
+  "durationMs": 287,
   "frustrationDetected": {
     "rageClick": false,
     "ssoLocked": false,
@@ -12,13 +12,13 @@
     {
       "type": "input",
       "target": "#username",
-      "time": 61,
+      "time": 86,
       "valueLength": 16
     },
     {
       "type": "input",
       "target": "#password",
-      "time": 80,
+      "time": 135,
       "valueLength": 11
     }
   ]

@@ -1,34 +1,50 @@
-/* --- Reset & Variables --- */
-:root {
-  --bg-primary: #0b0f19;
-  --bg-card: rgba(20, 30, 48, 0.65);
-  --border-card: rgba(255, 255, 255, 0.08);
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  
-  --accent-purple: #7c3aed;
-  --accent-purple-hover: #6d28d9;
-  --accent-purple-glow: rgba(124, 58, 237, 0.4);
-  
-  --accent-cyan: #06b6d4;
-  
-  --bg-input: rgba(10, 15, 26, 0.6);
-  --border-input: rgba(255, 255, 255, 0.1);
-  --border-input-focus: #7c3aed;
-  
-  --danger: #ef4444;
-  --danger-hover: #dc2626;
-  --danger-bg: rgba(239, 68, 68, 0.15);
-  --danger-border: rgba(239, 68, 68, 0.3);
-  
-  --success: #10b981;
-  --success-bg: rgba(16, 185, 129, 0.15);
-  --success-border: rgba(16, 185, 129, 0.3);
+/* ==========================================
+   ORANGEHRM DESIGN SYSTEM & AUTHENTICATION STYLES
+   Official OrangeHRM UI Theme & Layout
+   ========================================== */
 
-  --info-bg: rgba(6, 182, 212, 0.12);
-  --info-border: rgba(6, 182, 212, 0.25);
+:root {
+  /* OrangeHRM Brand Palette */
+  --ohrm-primary: #ff791a;
+  --ohrm-primary-hover: #e66a12;
+  --ohrm-primary-active: #d65c08;
+  --ohrm-primary-glow: rgba(255, 121, 26, 0.25);
   
-  --transition-speed: 0.25s;
+  --ohrm-bg-page: #f6f8fb;
+  --ohrm-bg-card: #ffffff;
+  --ohrm-bg-input: #ffffff;
+  --ohrm-bg-sheet: #f8fafc;
+  
+  --ohrm-border-light: #e2e8f0;
+  --ohrm-border-input: #cbd5e1;
+  --ohrm-border-focus: #ff791a;
+  
+  --ohrm-text-main: #1e293b;
+  --ohrm-text-secondary: #64748b;
+  --ohrm-text-muted: #94a3b8;
+  --ohrm-text-link: #ff791a;
+  
+  --ohrm-danger: #ef4444;
+  --ohrm-danger-bg: rgba(239, 68, 68, 0.08);
+  --ohrm-danger-border: rgba(239, 68, 68, 0.25);
+  
+  --ohrm-info-bg: rgba(56, 189, 248, 0.08);
+  --ohrm-info-border: rgba(56, 189, 248, 0.25);
+  
+  --ohrm-warning-bg: rgba(245, 158, 11, 0.08);
+  --ohrm-warning-border: rgba(245, 158, 11, 0.25);
+  
+  --ohrm-success: #10b981;
+  --ohrm-success-bg: rgba(16, 185, 129, 0.08);
+  
+  --ohrm-shadow-card: 0px 16px 35px 0px rgba(0, 0, 0, 0.08);
+  --ohrm-shadow-logo: 0px 8px 24px 0px rgba(0, 0, 0, 0.06);
+  
+  --ohrm-radius-card: 16px;
+  --ohrm-radius-btn: 8px;
+  --ohrm-radius-input: 8px;
+  
+  --transition-speed: 0.2s ease;
 }
 
 * {
@@ -38,217 +54,325 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--ohrm-bg-page);
+  color: var(--ohrm-text-main);
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* --- Background Orbs --- */
-.background-decor {
+/* ==========================================
+   ORANGEHRM LOGIN LAYOUT & BLOB BACKGROUND
+   ========================================== */
+
+.orangehrm-login-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: var(--ohrm-bg-page);
+}
+
+/* Left side Orange Wave/Blob Decorative Background */
+.orangehrm-login-layout-blob {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-image: radial-gradient(circle at 10% 20%, rgba(255, 121, 26, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 90% 80%, rgba(255, 121, 26, 0.05) 0%, transparent 50%);
+}
+
+.background-blob-svg {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
   height: 100%;
-  z-index: 0;
-  overflow: hidden;
+  width: 55%;
+  max-width: 700px;
+  object-fit: fill;
   pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
 }
 
-.circle {
+/* Top Right Floating Circular Logo Badge (Desktop) */
+.orangehrm-login-logo {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.15;
+  top: 2rem;
+  right: 4rem;
+  padding: 1rem 1.25rem;
+  background-color: #ffffff;
+  border-radius: 100px;
+  box-shadow: var(--ohrm-shadow-logo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border: 1px solid var(--ohrm-border-light);
 }
 
-.circle-1 {
-  width: 400px;
-  height: 400px;
-  background: var(--accent-purple);
-  top: -100px;
-  right: -50px;
+.orangehrm-login-logo img {
+  width: 140px;
+  height: auto;
+  display: block;
 }
 
-.circle-2 {
-  width: 450px;
-  height: 450px;
-  background: var(--accent-cyan);
-  bottom: -150px;
-  left: -100px;
-}
-
-/* --- Main Card Layout --- */
-.container {
-  z-index: 1;
+/* Main Center Content Container */
+.orangehrm-login-container {
+  z-index: 2;
   width: 100%;
-  max-width: 440px;
-  padding: 20px;
+  max-width: 480px;
+  padding: 2rem 1.5rem;
+  margin: 0 auto;
 }
 
-.login-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-card);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+.orangehrm-login-slot-wrapper {
+  width: 100%;
 }
 
-.login-card:hover {
-  box-shadow: 0 12px 48px 0 rgba(124, 58, 237, 0.15);
-}
-
-.card-header {
+/* Branding Card Box (Header) */
+.orangehrm-login-branding {
+  padding: 1.5rem 1rem;
+  background-color: #ffffff;
+  border-radius: var(--ohrm-radius-card);
   text-align: center;
-  margin-bottom: 30px;
+  box-shadow: var(--ohrm-shadow-card);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.logo {
-  font-size: 2.2rem;
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  color: var(--text-primary);
-  margin-bottom: 8px;
+.orangehrm-login-branding img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  max-height: 65px;
+  object-fit: contain;
 }
 
-.logo span {
-  color: var(--accent-purple);
+/* Main Form Card */
+.orangehrm-login-slot {
+  background-color: #ffffff;
+  padding: 2.25rem 2rem;
+  border-radius: var(--ohrm-radius-card);
+  box-shadow: var(--ohrm-shadow-card);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-.subtitle {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+.orangehrm-login-title {
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--ohrm-text-main);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
 }
 
-/* --- Form Elements --- */
-.input-group {
-  margin-bottom: 20px;
+/* Demo Credentials Box */
+.orangehrm-demo-credentials {
+  background-color: var(--ohrm-bg-sheet);
+  border: 1px solid var(--ohrm-border-light);
+  border-radius: 8px;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--ohrm-text-secondary);
+  line-height: 1.5;
+}
+
+.orangehrm-demo-credentials p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+}
+
+.orangehrm-demo-credentials strong {
+  color: var(--ohrm-text-main);
+  font-weight: 600;
+}
+
+/* Form Groups & Inputs */
+.oxd-form-row {
+  margin-bottom: 1.25rem;
   text-align: left;
 }
 
-.input-group label {
+.oxd-label {
   display: block;
   font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  color: var(--ohrm-text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--ohrm-text-muted);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 input {
   width: 100%;
-  padding: 12px 16px;
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  border-radius: 8px;
-  color: var(--text-primary);
-  font-size: 0.95rem;
+  height: 46px;
+  padding: 10px 14px 10px 42px;
+  background: var(--ohrm-bg-input);
+  border: 1px solid var(--ohrm-border-input);
+  border-radius: var(--ohrm-radius-input);
+  color: var(--ohrm-text-main);
+  font-size: 0.92rem;
   font-family: inherit;
   transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
 }
 
 input:focus {
   outline: none;
-  border-color: var(--border-input-focus);
-  box-shadow: 0 0 0 3px var(--accent-purple-glow);
+  border-color: var(--ohrm-border-focus);
+  box-shadow: 0 0 0 3px var(--ohrm-primary-glow);
 }
 
 input.invalid {
-  border-color: var(--danger);
+  border-color: var(--ohrm-danger);
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
 }
 
 .error-msg {
   display: none;
-  color: var(--danger);
-  font-size: 0.8rem;
+  color: var(--ohrm-danger);
+  font-size: 0.78rem;
   margin-top: 5px;
+  font-weight: 500;
 }
 
 .error-msg.visible {
   display: block;
 }
 
-/* --- Button Styling --- */
-.btn-primary {
+/* Primary Button Styling */
+.orangehrm-login-button {
   width: 100%;
-  padding: 14px;
-  background: var(--accent-purple);
-  color: #fff;
+  height: 48px;
+  background: linear-gradient(135deg, #ff791a 0%, #eb5a00 100%);
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: var(--ohrm-radius-btn);
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color var(--transition-speed), transform 0.1s;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+  letter-spacing: 0.02em;
+  transition: all var(--transition-speed);
+  box-shadow: 0 4px 14px var(--ohrm-primary-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
 }
 
-.btn-primary:hover {
-  background: var(--accent-purple-hover);
+.orangehrm-login-button:hover {
+  background: linear-gradient(135deg, #e66a12 0%, #d65c08 100%);
+  box-shadow: 0 6px 18px rgba(255, 121, 26, 0.35);
 }
 
-.btn-primary:active {
-  transform: scale(0.98);
+.orangehrm-login-button:active {
+  transform: translateY(1px);
 }
 
+/* Links & Forgot Password */
+.orangehrm-login-forgot {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.orangehrm-login-forgot-header {
+  font-size: 0.85rem;
+  color: var(--ohrm-text-link);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition-speed);
+}
+
+.orangehrm-login-forgot-header:hover {
+  color: var(--ohrm-primary-hover);
+  text-decoration: underline;
+}
+
+/* Divider */
 .divider {
   display: flex;
   align-items: center;
   text-align: center;
-  color: var(--text-secondary);
+  color: var(--ohrm-text-muted);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin: 24px 0;
+  margin: 1.25rem 0;
 }
 
 .divider::before, .divider::after {
   content: '';
   flex: 1;
-  border-bottom: 1px solid var(--border-card);
+  border-bottom: 1px solid var(--ohrm-border-light);
 }
 
 .divider:not(:empty)::before {
-  margin-right: .5em;
+  margin-right: .6em;
 }
 
 .divider:not(:empty)::after {
-  margin-left: .5em;
+  margin-left: .6em;
 }
 
-/* Secondary Button / SSO Module (Locked) */
+/* SSO Secondary Button (Locked) */
 .btn-secondary {
   position: relative;
   width: 100%;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-card);
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: not-allowed;
+  height: 44px;
+  background: #f8fafc;
+  color: var(--ohrm-text-secondary);
+  border: 1px solid var(--ohrm-border-light);
+  border-radius: var(--ohrm-radius-btn);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+  transition: all var(--transition-speed);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
-  color: var(--text-primary);
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: var(--ohrm-text-main);
 }
 
 .lock-icon {
@@ -256,60 +380,47 @@ input.invalid {
 }
 
 .card-footer {
-  margin-top: 30px;
+  margin-top: 1.25rem;
   text-align: center;
 }
 
 .btn-link {
   background: none;
   border: none;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
+  color: var(--ohrm-text-secondary);
+  font-size: 0.82rem;
   cursor: pointer;
+  font-weight: 500;
   transition: color var(--transition-speed);
 }
 
 .btn-link:hover {
-  color: var(--text-primary);
+  color: var(--ohrm-text-main);
   text-decoration: underline;
 }
 
-/* --- Feedback Info & Banners --- */
-.login-feedback {
-  font-size: 0.85rem;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.login-feedback.error {
-  color: var(--danger);
-}
-
-.login-feedback.success {
-  color: var(--success);
-}
-
-/* Alert Notification Banner */
+/* Alert Notification Banners */
 .alert-banner {
-  background: var(--danger-bg);
-  border: 1px solid var(--danger-border);
-  color: var(--text-primary);
+  background: var(--ohrm-danger-bg);
+  border: 1px solid var(--ohrm-danger-border);
+  color: var(--ohrm-text-main);
   border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 0.85rem;
-  margin-bottom: 20px;
-  line-height: 1.4;
+  padding: 0.85rem 1rem;
+  font-size: 0.82rem;
+  margin-bottom: 1.1rem;
+  line-height: 1.45;
+  text-align: left;
   animation: slideIn var(--transition-speed) ease-out;
 }
 
 .alert-banner.info {
-  background: var(--info-bg);
-  border: 1px solid var(--info-border);
+  background: var(--ohrm-info-bg);
+  border: 1px solid var(--ohrm-info-border);
 }
 
 .alert-banner.warning {
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.25);
+  background: var(--ohrm-warning-bg);
+  border: 1px solid var(--ohrm-warning-border);
 }
 
 .alert-content {
@@ -319,37 +430,37 @@ input.invalid {
 }
 
 .alert-banner a {
-  color: var(--accent-cyan);
+  color: var(--ohrm-primary);
   text-decoration: underline;
-  font-weight: 500;
+  font-weight: 600;
   transition: color var(--transition-speed);
 }
 
 .alert-banner a:hover {
-  color: #fff;
+  color: var(--ohrm-primary-hover);
 }
 
 .hidden {
   display: none !important;
 }
 
-/* Tooltip on SSO Button */
+/* SSO Tooltip */
 .tooltip {
   position: absolute;
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  background: #1e1e2d;
-  color: #f3f4f6;
+  width: 94%;
+  background: #1e293b;
+  color: #ffffff;
   text-align: center;
-  border: 1px solid var(--accent-purple);
+  border: 1px solid var(--ohrm-primary);
   border-radius: 6px;
   padding: 8px 12px;
   font-size: 0.78rem;
-  line-height: 1.3;
+  line-height: 1.35;
   z-index: 10;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   animation: fadeIn 0.2s ease-out;
 }
 
@@ -361,46 +472,107 @@ input.invalid {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #1e1e2d transparent transparent transparent;
+  border-color: #1e293b transparent transparent transparent;
 }
 
-/* --- Modals --- */
+.login-feedback {
+  font-size: 0.82rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.login-feedback.error {
+  color: var(--ohrm-danger);
+}
+
+.login-feedback.success {
+  color: var(--ohrm-success);
+}
+
+/* OrangeHRM Social Links & Footer */
+.orangehrm-login-footer-sm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+
+.orangehrm-login-footer-sm a {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--ohrm-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ohrm-text-secondary);
+  transition: all var(--transition-speed);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.orangehrm-login-footer-sm a:hover {
+  color: var(--ohrm-primary);
+  border-color: var(--ohrm-primary);
+  transform: translateY(-2px);
+}
+
+.orangehrm-sm-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.orangehrm-copyright {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--ohrm-text-muted);
+  margin-top: 1.25rem;
+  line-height: 1.4;
+}
+
+/* Modals & Overlays */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1000;
   animation: fadeIn 0.2s ease-out;
 }
 
 .modal-card {
-  background: #141b30;
-  border: 1px solid var(--border-card);
-  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--ohrm-border-light);
+  border-radius: var(--ohrm-radius-card);
   padding: 24px;
-  max-width: 380px;
+  max-width: 400px;
   width: 90%;
   text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  color: var(--ohrm-text-main);
 }
 
 .modal-card h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--ohrm-text-main);
 }
 
 .modal-card p {
   font-size: 0.88rem;
-  color: var(--text-secondary);
+  color: var(--ohrm-text-secondary);
   margin-bottom: 20px;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .modal-actions {
@@ -409,31 +581,42 @@ input.invalid {
   gap: 12px;
 }
 
-.modal-actions button {
-  padding: 10px 16px;
-  border-radius: 6px;
+.modal-actions button, .modal-actions .btn-secondary {
+  padding: 10px 18px;
+  border-radius: var(--ohrm-radius-btn);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
+  border: none;
   transition: opacity var(--transition-speed);
 }
 
 .modal-actions .btn-secondary {
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.05);
+  background: #f1f5f9;
+  color: var(--ohrm-text-main);
+  margin-top: 0;
+  width: auto;
 }
 
 .modal-actions .btn-danger {
-  background: var(--danger);
-  border: none;
-  color: #fff;
+  background: var(--ohrm-danger);
+  color: #ffffff;
 }
 
 .modal-actions .btn-danger:hover {
-  background: var(--danger-hover);
+  background: #dc2626;
 }
 
-/* --- Animations --- */
+.modal-actions .btn-primary {
+  background: var(--ohrm-primary);
+  color: #ffffff;
+}
+
+.modal-actions .btn-primary:hover {
+  background: var(--ohrm-primary-hover);
+}
+
+/* Animations */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -446,15 +629,10 @@ input.invalid {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Shake Animation */
 .shake {
   animation: shakeKeyframe 0.5s ease;
 }
@@ -465,18 +643,19 @@ input.invalid {
   20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
-/* --- Slider & Survey Overlay Styles --- */
+/* Slider & Survey Overlay */
 .slider-container {
-  margin: 25px 0;
+  margin: 24px 0;
   text-align: left;
 }
 
 .slider {
   -webkit-appearance: none;
+  appearance: none;
   width: 100%;
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 6px;
+  border-radius: 3px;
+  background: #e2e8f0;
   outline: none;
   transition: background 0.15s ease;
 }
@@ -487,14 +666,14 @@ input.invalid {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--accent-purple);
+  background: var(--ohrm-primary);
   cursor: pointer;
-  box-shadow: 0 0 10px var(--accent-purple-glow);
+  box-shadow: 0 0 10px var(--ohrm-primary-glow);
   transition: transform 0.1s;
 }
 
 .slider::-webkit-slider-thumb:hover {
-  transform: scale(1.25);
+  transform: scale(1.2);
 }
 
 .slider-labels {
@@ -502,43 +681,40 @@ input.invalid {
   justify-content: space-between;
   padding: 0 2px;
   margin-top: 8px;
-  color: var(--text-secondary);
+  color: var(--ohrm-text-secondary);
   font-size: 0.75rem;
 }
 
 .rating-display {
-  margin-top: 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--accent-cyan);
+  margin-top: 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ohrm-primary);
   text-align: center;
 }
 
 .feedback-success {
-  color: var(--success);
+  color: var(--ohrm-success);
   margin-top: 15px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-align: center;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-/* --- Session Recorder Controller Widget --- */
+/* Session Recorder Controller Widget */
 .recorder-widget {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: rgba(25, 20, 35, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--ohrm-border-light);
+  border-radius: var(--ohrm-radius-card);
   padding: 16px;
   width: 280px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(186, 104, 200, 0.1);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
   z-index: 9999;
-  font-family: 'Inter', sans-serif;
-  color: var(--text-primary);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  font-family: inherit;
+  color: var(--ohrm-text-main);
 }
 
 .recorder-header {
@@ -546,30 +722,30 @@ input.invalid {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--ohrm-border-light);
   padding-bottom: 8px;
 }
 
 .recorder-header h4 {
   margin: 0;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-size: 0.85rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 6px;
+  color: var(--ohrm-text-main);
 }
 
 .recorder-status-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #757575;
+  background: var(--ohrm-text-muted);
   transition: background-color 0.3s;
 }
 
 .recorder-status-dot.recording {
-  background: #ff5252;
+  background: var(--ohrm-danger);
   animation: pulse 1s infinite alternate;
 }
 
@@ -580,7 +756,7 @@ input.invalid {
 
 .recorder-body {
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: var(--ohrm-text-secondary);
 }
 
 .recorder-stats {
@@ -598,10 +774,10 @@ input.invalid {
 .btn-record {
   flex: 1;
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: var(--ohrm-radius-btn);
   border: none;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -616,19 +792,21 @@ input.invalid {
 }
 
 .btn-record.start {
-  background: #ff5252;
-  color: #fff;
+  background: var(--ohrm-danger);
+  color: #ffffff;
 }
+
 .btn-record.start:hover:not(:disabled) {
-  background: #ff7373;
+  background: #dc2626;
 }
 
 .btn-record.stop {
-  background: var(--accent-cyan);
-  color: #0f172a;
+  background: #0284c7;
+  color: #ffffff;
 }
+
 .btn-record.stop:hover:not(:disabled) {
-  background: #38bdf8;
+  background: #0369a1;
 }
 
 .recorder-input-group {
@@ -639,26 +817,40 @@ input.invalid {
 }
 
 .recorder-input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f8fafc;
+  border: 1px solid var(--ohrm-border-input);
   border-radius: 6px;
   padding: 6px 10px;
-  color: #fff;
-  font-size: 0.8rem;
+  color: var(--ohrm-text-main);
+  font-size: 0.78rem;
   outline: none;
   width: 100%;
   box-sizing: border-box;
 }
+
 .recorder-input:focus {
-  border-color: var(--accent-cyan);
+  border-color: var(--ohrm-primary);
 }
 
 .recorder-msg {
   margin-top: 8px;
   font-size: 0.75rem;
   text-align: center;
-  font-weight: 500;
+  font-weight: 600;
 }
-.recorder-msg.success { color: var(--success); }
-.recorder-msg.error { color: var(--danger); }
 
+.recorder-msg.success { color: var(--ohrm-success); }
+.recorder-msg.error { color: var(--ohrm-danger); }
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .orangehrm-login-logo {
+    display: none;
+  }
+  .orangehrm-login-container {
+    padding: 1rem;
+  }
+  .background-blob-svg {
+    width: 100%;
+  }
+}

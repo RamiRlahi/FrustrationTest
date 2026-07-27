@@ -3,90 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Talan</title>
+  <title>OrangeHRM - Login</title>
   <link rel="stylesheet" href="style.css">
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="background-decor">
-    <div class="circle circle-1"></div>
-    <div class="circle circle-2"></div>
-  </div>
+  <div class="orangehrm-login-layout">
+    <div class="orangehrm-login-layout-blob">
+      <!-- Background SVG Organic Wave Vector -->
+      <img src="images/blob.svg" alt="background-decor" class="background-blob-svg">
 
-  <div class="container">
-    <!-- Main Login Card -->
-    <div class="login-card" id="loginCard">
-      <div class="card-header">
-        <h1 class="logo">Talan</h1>
-        <p class="subtitle">Enter credentials to access your console</p>
+      <!-- Top Right Floating OrangeHRM Circular Badge (Desktop) -->
+      <div class="orangehrm-login-logo">
+        <img src="images/orangehrm-logo.png" alt="OrangeHRM Logo">
       </div>
 
-      <!-- General Notification Banners (Hidden by default) -->
-      <div class="alert-banner hidden" id="rageClickBanner">
-        <div class="alert-content">
-          <span class="icon">💡</span>
-          <div>
-            <strong>Need assistance?</strong> We noticed multiple rapid attempts. <a href="#" id="resetBtn">Reset Password</a> or <a href="#" id="supportBtn">Contact Support</a>.
+      <!-- Main Login Container -->
+      <div class="orangehrm-login-container">
+        <div class="orangehrm-login-slot-wrapper">
+
+          <!-- Top Company Branding Banner Box -->
+          <div class="orangehrm-login-branding">
+            <img src="images/ohrm_branding.png" alt="OrangeHRM Branding">
+          </div>
+
+          <!-- Main Login Form Card -->
+          <div class="orangehrm-login-slot" id="loginCard">
+            <h5 class="orangehrm-login-title">Login</h5>
+
+            <!-- Demo Credentials Helper Sheet -->
+            <div class="orangehrm-demo-credentials">
+              <p><strong>Username :</strong> Admin</p>
+              <p><strong>Password :</strong> admin123</p>
+            </div>
+
+            <!-- General Notification Banners (Hidden by default) -->
+            <div class="alert-banner hidden" id="rageClickBanner">
+              <div class="alert-content">
+                <span class="icon">💡</span>
+                <div>
+                  <strong>Need assistance?</strong> We noticed multiple rapid attempts. <a href="#" id="resetBtn">Reset Password</a> or <a href="#" id="supportBtn">Contact Support</a>.
+                </div>
+              </div>
+            </div>
+
+            <div class="alert-banner info hidden" id="magicLinkBanner">
+              <div class="alert-content">
+                <span class="icon">✉️</span>
+                <div>
+                  <strong>Too many failed attempts.</strong> Log in instantly via a <a href="#" id="magicLinkBtn">One-time Magic Link</a> instead.
+                </div>
+              </div>
+            </div>
+
+            <div class="alert-banner warning hidden" id="mouseJitterBanner">
+              <div class="alert-content">
+                <span class="icon">💬</span>
+                <div>
+                  <strong>Feeling stuck?</strong> Open our live chat for instant help.
+                </div>
+              </div>
+            </div>
+
+            <form id="loginForm" novalidate>
+              <div class="oxd-form-row">
+                <label class="oxd-label" for="username">Username</label>
+                <div class="input-wrapper">
+                  <span class="input-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                  </span>
+                  <input type="email" id="username" placeholder="Username" autocomplete="username" required>
+                </div>
+                <div class="error-msg" id="emailError">Please enter a valid username.</div>
+              </div>
+
+              <div class="oxd-form-row">
+                <label class="oxd-label" for="password">Password</label>
+                <div class="input-wrapper">
+                  <span class="input-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v2h2v-2h2v-2h-8.35zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                  </span>
+                  <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
+                </div>
+                <div class="error-msg" id="passwordError">Password must be at least 8 characters.</div>
+              </div>
+
+              <!-- Hidden feedback state for tests -->
+              <div id="loginFeedback" class="login-feedback"></div>
+
+              <button type="submit" class="orangehrm-login-button" id="loginSubmit">
+                Login
+              </button>
+
+              <div class="orangehrm-login-forgot">
+                <a href="#" class="orangehrm-login-forgot-header" id="forgotPasswordLink">Forgot your password?</a>
+              </div>
+
+              <div class="divider">
+                <span>or continue with Enterprise</span>
+              </div>
+
+              <!-- SSO Button (Unavailable module / frustration test target) -->
+              <button type="button" class="btn-secondary locked" id="ssoSubmit" aria-disabled="true">
+                <span class="lock-icon">🔒</span> Single Sign-On (SSO / Passkey)
+                <div class="tooltip hidden" id="ssoTooltip">
+                  SSO is temporarily locked. Please use standard username & password.
+                </div>
+              </button>
+
+              <div class="card-footer">
+                <button type="button" class="btn-link" id="cancelButton">Cancel & Go Back</button>
+              </div>
+            </form>
+
+            <!-- Social Media Icons Footer -->
+            <div class="orangehrm-login-footer-sm">
+              <a href="https://www.linkedin.com/company/orangehrm/mycompany/" target="_blank" title="LinkedIn">
+                <svg class="orangehrm-sm-icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.74a1.45 1.45 0 1 0 0 2.9 1.45 1.45 0 0 0 0-2.9z"/></svg>
+              </a>
+              <a href="https://www.facebook.com/OrangeHRM/" target="_blank" title="Facebook">
+                <svg class="orangehrm-sm-icon" viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
+              </a>
+              <a href="https://twitter.com/orangehrm?lang=en" target="_blank" title="Twitter">
+                <svg class="orangehrm-sm-icon" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.05c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
+              </a>
+              <a href="https://www.youtube.com/c/OrangeHRMInc" target="_blank" title="YouTube">
+                <svg class="orangehrm-sm-icon" viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+              </a>
+            </div>
+
+            <!-- Copyright Information -->
+            <p class="orangehrm-copyright">
+              OrangeHRM OS 5.7<br>© 2006 - 2026 OrangeHRM, Inc. All rights reserved.
+            </p>
           </div>
         </div>
-      </div>
-
-      <div class="alert-banner info hidden" id="magicLinkBanner">
-        <div class="alert-content">
-          <span class="icon">✉️</span>
-          <div>
-            <strong>Too many failed attempts.</strong> Log in instantly via a <a href="#" id="magicLinkBtn">One-time Magic Link</a> instead.
-          </div>
-        </div>
-      </div>
-
-      <div class="alert-banner warning hidden" id="mouseJitterBanner">
-        <div class="alert-content">
-          <span class="icon">💬</span>
-          <div>
-            <strong>Feeling stuck?</strong> Open our live chat for instant help.
-          </div>
-        </div>
-      </div>
-
-      <form id="loginForm" novalidate>
-        <div class="input-group">
-          <label for="username">Work Email</label>
-          <input type="email" id="username" placeholder="name@company.com" autocomplete="username" required>
-          <div class="error-msg" id="emailError">Please enter a valid email address.</div>
-        </div>
-
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
-          <div class="error-msg" id="passwordError">Password must be at least 8 characters.</div>
-        </div>
-
-        <!-- Hidden inputs / state validation for tests -->
-        <div id="loginFeedback" class="login-feedback"></div>
-
-        <button type="submit" class="btn-primary" id="loginSubmit">
-          Log In
-        </button>
-
-        <div class="divider">
-          <span>or continue with Enterprise</span>
-        </div>
-
-        <!-- SSO Button (Unavailable module / frustration test target) -->
-        <button type="button" class="btn-secondary locked" id="ssoSubmit" aria-disabled="true">
-          <span class="lock-icon">🔒</span> Single Sign-On (SSO / Passkey)
-          <div class="tooltip hidden" id="ssoTooltip">
-            SSO is temporarily locked. Please use standard email & password.
-          </div>
-        </button>
-      </form>
-
-      <div class="card-footer">
-        <button type="button" class="btn-link" id="cancelButton">Cancel & Go Back</button>
       </div>
     </div>
   </div>
@@ -270,7 +324,6 @@
     });
 
     function triggerFrustrationSurvey() {
-      // Once per session — do not re-open after the user dismisses
       if (surveySeen) return;
       surveySeen = true;
       surveyOverlay.classList.remove('hidden');
@@ -280,30 +333,31 @@
     }
 
     // --- 1. Rage Clicking Detection ---
-    // Use 'pointerdown' instead of 'click' — Firefox suppresses rapid 'click'
-    // events on submit buttons because each triggers form processing, causing
-    // some clicks to be swallowed before the counter reaches 5.
-    loginSubmit.addEventListener('pointerdown', (e) => {
+    let lastSubmitClickTimeStamp = 0;
+    function handleLoginSubmitClick(e) {
       const now = Date.now();
-      // Record click time
+      if (now - lastSubmitClickTimeStamp < 20) return; // Prevent double-counting simultaneous events
+      lastSubmitClickTimeStamp = now;
+
       loginSubmitClicks.push(now);
-      // Keep only clicks within the last 3.0 seconds
       loginSubmitClicks = loginSubmitClicks.filter(time => now - time < 3000);
 
       if (loginSubmitClicks.length >= 5) {
-        rageclickdetected = true; // variable tchouf rage clicking
+        window.rageclickdetected = true;
         recordTrigger('rageClick');
         rageClickBanner.classList.remove('hidden');
         rageClickBanner.scrollIntoView({ behavior: 'smooth' });
         triggerFrustrationSurvey();
       }
-    });
+    }
+
+    loginSubmit.addEventListener('pointerdown', handleLoginSubmitClick);
+    loginSubmit.addEventListener('click', handleLoginSubmitClick);
 
     // --- 2. Rage Click module unavailable
     ssoSubmit.addEventListener('click', (e) => {
       ssoClicks++;
       
-      // Clear previous timeout if user clicks rapidly
       if (ssoTooltipTimeout) clearTimeout(ssoTooltipTimeout);
       
       if (ssoClicks >= 3) {
@@ -314,22 +368,20 @@
         setTimeout(() => ssoSubmit.classList.remove('shake'), 500);
         triggerFrustrationSurvey();
       } else {
-        // Normal warning on first two clicks
         ssoTooltip.textContent = "Passkey authentication is disabled for this organization.";
         ssoTooltip.classList.remove('hidden');
       }
 
       ssoTooltipTimeout = setTimeout(() => {
         ssoTooltip.classList.add('hidden');
-        ssoClicks = 0; // reset
-      }, 3000);
+        ssoClicks = 0;
+      }, 5000);
     });
 
     // --- 3. Repeated Login Failures ---
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      // Basic validation
       let valid = true;
       if (!isValidEmail(emailInput.value)) {
         emailInput.classList.add('invalid');
@@ -350,17 +402,17 @@
       }
 
       if (!valid) {
-        // Shake the card on input validation failures (Dead Clicking response)
         loginCard.classList.add('shake');
         setTimeout(() => loginCard.classList.remove('shake'), 500);
         return;
       }
 
-      // ken admin@Talan.com / password123 tekhdem 
-      if (emailInput.value === 'admin@Talan.com' && passwordInput.value === 'password123') {
+      if ((emailInput.value === 'Admin' || emailInput.value === 'admin@Talan.com') && passwordInput.value === 'password123') {
         loginFeedback.textContent = "SUCCESS";
-        loginFeedback.className= "login-feedback success";
-        // nredirectiw
+        loginFeedback.className = "login-feedback success";
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 500);
       } else {
         failedAttempts++;
         loginFeedback.textContent = "Invalid username or password.";
@@ -386,15 +438,9 @@
 
       if (backButtonClicks >= 3) {
         recordTrigger('backtrack');
-        // The reversion modal IS the frustration response for backtracking.
-        // Do NOT call triggerFrustrationSurvey() here — the survey overlay
-        // is a full-screen backdrop (z-index 100) that would sit on top of
-        // the modal and intercept all pointer events, making #modalContinue
-        // unreachable. The survey can be offered separately after the modal.
         reversionModal.classList.remove('hidden');
-        backButtonClicks = 0; // reset
+        backButtonClicks = 0;
       } else {
-        // Flash warning or navigate back normally if clicked once
         console.log("Go back clicked " + backButtonClicks);
       }
 
@@ -409,13 +455,10 @@
 
     modalExit.addEventListener('click', () => {
       if (isRecording) {
-        // Stop the recording visually
         recStopBtn.click();
-        // Trigger save with an auto-generated name
         recSessionName.value = 'canceled_session_' + Date.now();
         recSaveBtn.click();
         
-        // Wait briefly for the fetch to fire before navigating away
         setTimeout(() => {
           window.location.href = 'about:blank';
         }, 300);
@@ -424,7 +467,7 @@
       }
     });
 
-    // --- 5. Mouse Jitters (erratic movements representing stress) ---
+    // --- 5. Mouse Jitters ---
     let lastMouseMoveTime = 0;
     loginCard.addEventListener('mousemove', (e) => {
       if (isRecording) {
@@ -442,7 +485,7 @@
         }
       }
 
-      if (jitterDetected) return; // Trigger only once per load for demo simplicity
+      if (jitterDetected) return;
 
       const currentPoint = { x: e.clientX, y: e.clientY, time: Date.now() };
       mousePath.push(currentPoint);
@@ -452,43 +495,36 @@
       }
 
       if (mousePath.length === JITTER_MAX_SAMPLES) {
-        let totalAngleChange = 0;
-        let directionChanges = 0; //variable for any mouse jitters ( mouse goes back and forth)
+        let directionChanges = 0;
 
         for (let i = 2; i < mousePath.length; i++) {
           const p1 = mousePath[i - 2];
           const p2 = mousePath[i - 1];
           const p3 = mousePath[i];
 
-          // Compute vectors
           const v1 = { x: p2.x - p1.x, y: p2.y - p1.y };
           const v2 = { x: p3.x - p2.x, y: p3.y - p2.y };
 
-          // Magnitudes
           const m1 = Math.sqrt(v1.x * v1.x + v1.y * v1.y);
           const m2 = Math.sqrt(v2.x * v2.x + v2.y * v2.y);
 
-          if (m1 > 5 && m2 > 5) { // Only count significant movements
-            // Dot product
+          if (m1 > 5 && m2 > 5) {
             const dot = v1.x * v2.x + v1.y * v2.y;
-            // Cosine of angle
             const cosTheta = Math.max(-1, Math.min(1, dot / (m1 * m2)));
             const angle = Math.acos(cosTheta) * (180 / Math.PI);
             
-            // If angle is large, it's a sharp direction switch
             if (angle > 110) { 
               directionChanges++;
             }
           }
         }
 
-        // If mouse changes direction sharply 4+ times within a brief slice, it's shaking/jittering
         if (directionChanges >= 5) {
-          jitterDetected = true; // variable tchouf mouse movement 
+          jitterDetected = true;
           recordTrigger('mouseJitter');
           mouseJitterBanner.classList.remove('hidden');
           mouseJitterBanner.scrollIntoView({ behavior: 'smooth' });
-          triggerFrustrationSurvey(); // hedha survey nejmou nestaamlouh ka reinforcment lel ai model mteena
+          triggerFrustrationSurvey();
         }
       }
     });
@@ -532,8 +568,6 @@
       recSaveGroup.classList.add('hidden');
       recMsg.classList.add('hidden');
       recorderStatusDot.classList.add('recording');
-      
-      console.log('Session recording started');
     });
 
     recStopBtn.addEventListener('click', () => {
@@ -544,14 +578,11 @@
       recStopBtn.disabled = true;
       recSaveGroup.classList.remove('hidden');
       recorderStatusDot.classList.remove('recording');
-      
-      console.log('Session recording stopped. Recorded events:', recordedEvents.length);
     });
 
     recSaveBtn.addEventListener('click', () => {
       let name = recSessionName.value.trim();
       if (!name) {
-        // Automatically assign a name with a timestamp if left blank
         name = 'session_' + Date.now();
         recSessionName.value = name; 
       }
@@ -600,11 +631,8 @@
       recMsg.classList.remove('hidden');
     }
 
-    // Capture Clicks globally on document
     document.addEventListener('pointerdown', (e) => {
       if (!isRecording) return;
-      
-      // Ignore clicks inside the recorder widget itself
       if (recorderWidget.contains(e.target)) return;
       
       const elapsed = Date.now() - recordingStartTime;
@@ -620,7 +648,6 @@
       updateRecStats();
     });
 
-    // Capture Input events
     const recordInput = (e) => {
       if (isRecording) {
         const elapsed = Date.now() - recordingStartTime;
