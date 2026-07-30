@@ -1,6 +1,0 @@
-{{ dialect.bold(eventType) }} — {{ dateLabel }}{% if subunitLabel %} {{ dialect.italic('(' ~ subunitLabel ~ ')') }}{% endif %}
-
-{% for row in rows -%}
-{{ dialect.bullet() }} {{ dialect.escape(row.name) }}{% if not loop.last %}
-{% endif %}
-{%- endfor %}

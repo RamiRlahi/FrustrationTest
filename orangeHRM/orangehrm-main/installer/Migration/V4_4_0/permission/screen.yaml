@@ -1,7 +1,0 @@
-'Buzz':
-  module: buzz
-  url: viewBuzz
-  permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
-    - { role: ESS, permission: { read: true, create: true, update: true, delete: true } }
-    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }

@@ -1,6 +1,0 @@
-Entities :
-  Candidate:
-    PurgeStrategy:
-      DestroyCandidate:
-        match_by:
-          - {match: vacancy,  join: candidateHistory}

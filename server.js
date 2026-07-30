@@ -55,6 +55,54 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Handle AI Frustration Classification API
+  if (req.method === 'POST' && req.url === '/api/predict_frustration') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      try {
+        const features = JSON.parse(body);
+        let score = 0;
+        
+        const submitClicks = features.obs_submit_clicks || 0;
+        const ssoClicks = features.obs_sso_clicks || 0;
+        const reversals = features.obs_jitter_reversals || 0;
+        const bursts = features.obs_rapid_click_bursts || 0;
+        const cancelClicks = features.obs_cancel_clicks || 0;
+        const failedAttempts = features.failed_attempts || 0;
+
+        if (submitClicks >= 5) score += 0.45;
+        else if (submitClicks >= 3) score += 0.25;
+
+        if (ssoClicks >= 3) score += 0.35;
+        else if (ssoClicks >= 1) score += 0.15;
+
+        if (reversals >= 5) score += 0.35;
+        else if (reversals >= 3) score += 0.20;
+
+        if (bursts >= 1) score += 0.25;
+        if (cancelClicks >= 3) score += 0.30;
+        if (failedAttempts >= 3) score += 0.35;
+
+        const probability = Math.min(1.0, score);
+        const isFrustrated = probability >= 0.50;
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          isFrustrated,
+          probability: parseFloat(probability.toFixed(3)),
+          confidence: probability > 0.75 ? 'HIGH' : probability >= 0.5 ? 'MEDIUM' : 'LOW'
+        }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid payload' }));
+      }
+    });
+    return;
+  }
+
   // Normalize path and resolve to public dir
   let safeUrl = req.url.split('?')[0];
   let filePath = path.join(PUBLIC_DIR, safeUrl === '/' ? 'index.html' : safeUrl);

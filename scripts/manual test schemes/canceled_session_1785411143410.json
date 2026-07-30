@@ -1,0 +1,64 @@
+{
+  "name": "canceled_session_1785411143410",
+  "durationMs": 581,
+  "frustrationDetected": {
+    "rageClick": false,
+    "ssoLocked": false,
+    "magicLink": false,
+    "mouseJitter": false,
+    "backtrack": true
+  },
+  "events": [
+    {
+      "type": "mousemove",
+      "time": 49,
+      "x": 632,
+      "y": 712
+    },
+    {
+      "type": "click",
+      "target": "#cancelButton",
+      "time": 51,
+      "x": 632.3900756835938,
+      "y": 712.4500122070312
+    },
+    {
+      "type": "mousemove",
+      "time": 183,
+      "x": 632,
+      "y": 712
+    },
+    {
+      "type": "click",
+      "target": "#cancelButton",
+      "time": 184,
+      "x": 632.3900756835938,
+      "y": 712.4500122070312
+    },
+    {
+      "type": "mousemove",
+      "time": 309,
+      "x": 632,
+      "y": 712
+    },
+    {
+      "type": "click",
+      "target": "#cancelButton",
+      "time": 310,
+      "x": 632.3900756835938,
+      "y": 712.4500122070312
+    },
+    {
+      "type": "trigger",
+      "triggerType": "backtrack",
+      "time": 310
+    },
+    {
+      "type": "click",
+      "target": "#modalExit",
+      "time": 570,
+      "x": 687.77001953125,
+      "y": 417.20001220703125
+    }
+  ]
+}

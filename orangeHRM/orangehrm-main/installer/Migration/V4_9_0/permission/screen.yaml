@@ -1,5 +1,0 @@
-'Add Theme':
-  module: admin
-  url: addTheme
-  permissions:
-    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }

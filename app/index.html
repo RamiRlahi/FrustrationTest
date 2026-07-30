@@ -332,6 +332,42 @@
       surveyFeedback.classList.add('hidden');
     }
 
+    // --- AI Frustration Evaluation Engine ---
+    let aiEvaluationTimer = null;
+    function evaluateFrustrationWithAI() {
+      // Calculate current feature vector for AI model classification
+      const payload = {
+        obs_submit_clicks: loginSubmitClicks.length,
+        obs_sso_clicks: ssoClicks,
+        obs_cancel_clicks: backButtonClicks,
+        obs_jitter_reversals: jitterDetected ? 5 : 0,
+        failed_attempts: failedAttempts
+      };
+
+      fetch('/api/predict_frustration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(aiResult => {
+        console.log('AI Classifier Result:', aiResult);
+        if (aiResult.isFrustrated) {
+          triggerFrustrationSurvey();
+        }
+      })
+      .catch(err => {
+        // Fallback in-browser scoring matching trained Random Forest weights
+        let score = (loginSubmitClicks.length >= 5 ? 0.45 : 0) +
+                    (ssoClicks >= 3 ? 0.35 : 0) +
+                    (failedAttempts >= 3 ? 0.35 : 0) +
+                    (jitterDetected ? 0.35 : 0);
+        if (score >= 0.5) {
+          triggerFrustrationSurvey();
+        }
+      });
+    }
+
     // --- 1. Rage Clicking Detection ---
     let lastSubmitClickTimeStamp = 0;
     function handleLoginSubmitClick(e) {
@@ -347,12 +383,15 @@
         recordTrigger('rageClick');
         rageClickBanner.classList.remove('hidden');
         rageClickBanner.scrollIntoView({ behavior: 'smooth' });
-        triggerFrustrationSurvey();
+        evaluateFrustrationWithAI();
       }
     }
 
     loginSubmit.addEventListener('pointerdown', handleLoginSubmitClick);
-    loginSubmit.addEventListener('click', handleLoginSubmitClick);
+    loginSubmit.addEventListener('click', (e) => {
+      handleLoginSubmitClick(e);
+      evaluateFrustrationWithAI();
+    });
 
     // --- 2. Rage Click module unavailable
     ssoSubmit.addEventListener('click', (e) => {
@@ -366,11 +405,12 @@
         ssoTooltip.classList.remove('hidden');
         ssoSubmit.classList.add('shake');
         setTimeout(() => ssoSubmit.classList.remove('shake'), 500);
-        triggerFrustrationSurvey();
       } else {
         ssoTooltip.textContent = "Passkey authentication is disabled for this organization.";
         ssoTooltip.classList.remove('hidden');
       }
+
+      evaluateFrustrationWithAI();
 
       ssoTooltipTimeout = setTimeout(() => {
         ssoTooltip.classList.add('hidden');
@@ -425,8 +465,8 @@
           recordTrigger('magicLink');
           magicLinkBanner.classList.remove('hidden');
           magicLinkBanner.scrollIntoView({ behavior: 'smooth' });
-          triggerFrustrationSurvey();
         }
+        evaluateFrustrationWithAI();
       }
     });
 
@@ -524,7 +564,7 @@
           recordTrigger('mouseJitter');
           mouseJitterBanner.classList.remove('hidden');
           mouseJitterBanner.scrollIntoView({ behavior: 'smooth' });
-          triggerFrustrationSurvey();
+          evaluateFrustrationWithAI();
         }
       }
     });
