@@ -1,3 +1,4 @@
+@login @magiclink
 Feature: Repeated Login Failures and Magic Link Offer
   As a user experiencing credential issues
   I want the system to offer an alternative login method after multiple failures

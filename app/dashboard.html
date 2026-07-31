@@ -338,7 +338,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="oxd-main-menu-item">
+          <a href="leave.html" class="oxd-main-menu-item" id="leaveMenuLink">
             <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
             <span>Leave</span>
           </a>
@@ -445,10 +445,10 @@
                 <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2z"/></svg>
                 <span class="quick-launch-text">Timesheets</span>
               </div>
-              <div class="quick-launch-item">
+              <a href="leave.html" class="quick-launch-item" id="applyLeaveQuickLaunch">
                 <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6z"/></svg>
                 <span class="quick-launch-text">Apply Leave</span>
-              </div>
+              </a>
               <div class="quick-launch-item">
                 <svg class="quick-launch-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
                 <span class="quick-launch-text">My Leave</span>
@@ -537,6 +537,22 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // Punch button toggle
+    const punchBtn = document.getElementById('punchBtn');
+    const punchStatus = document.querySelector('.punch-status');
+    let isPunchedIn = true;
+
+    punchBtn.addEventListener('click', () => {
+      isPunchedIn = !isPunchedIn;
+      if (isPunchedIn) {
+        punchStatus.textContent = 'Logged in as Admin (PUNCHED IN)';
+        punchBtn.textContent = 'Punch Out';
+      } else {
+        punchStatus.textContent = 'Logged in as Admin (PUNCHED OUT)';
+        punchBtn.textContent = 'Punch In';
+      }
+    });
 
     // Logout button
     document.getElementById('logoutBtn').addEventListener('click', () => {

@@ -6,7 +6,7 @@ class BasePage {
   }
 
   async goto(url = 'http://127.0.0.1:3000/') {
-    await this.page.goto(url);
+    await this.page.goto(url, { waitUntil: 'load' });
   }
 
   async waitForTimeout(ms) {

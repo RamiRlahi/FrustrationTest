@@ -6,6 +6,8 @@ const path = require('path');
 
 const LoginPage = require('../pages/LoginPage');
 const FrustrationSurveyModal = require('../pages/FrustrationSurveyModal');
+const DashboardPage = require('../pages/DashboardPage');
+const LeavePage = require('../pages/LeavePage');
 
 setDefaultTimeout(60000);
 
@@ -46,6 +48,8 @@ class CustomWorld {
     this.page = null;
     this.loginPage = null;
     this.surveyModal = null;
+    this.dashboardPage = null;
+    this.leavePage = null;
     this.recordedEvents = [];
     this.attackResult = null;
   }
@@ -61,6 +65,8 @@ Before(async function () {
   // Attach Page Objects
   this.loginPage = new LoginPage(this.page);
   this.surveyModal = new FrustrationSurveyModal(this.page);
+  this.dashboardPage = new DashboardPage(this.page);
+  this.leavePage = new LeavePage(this.page);
 });
 
 After(async function () {

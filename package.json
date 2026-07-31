@@ -7,6 +7,10 @@
     "start": "node server.js",
     "test": "playwright test",
     "test:bdd": "cucumber-js",
+    "test:bdd:smoke": "cucumber-js --tags \"@smoke\"",
+    "test:bdd:dashboard": "cucumber-js --tags \"@dashboard\"",
+    "test:bdd:leave": "cucumber-js --tags \"@leave\"",
+    "test:bdd:login": "cucumber-js --tags \"@login\"",
     "adversary": "node scripts/adversary/run.js"
   },
   "keywords": [],

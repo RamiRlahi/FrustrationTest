@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrangeHRM - Leave Management</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f6f8fb;
+      display: block;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .oxd-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    .oxd-sidepanel {
+      width: 240px;
+      background-color: #ffffff;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.03);
+    }
+
+    .oxd-sidepanel-header {
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .oxd-sidepanel-logo {
+      height: 40px;
+      width: auto;
+    }
+
+    .oxd-main-menu {
+      list-style: none;
+      padding: 1rem 0.75rem;
+      margin: 0;
+      flex: 1;
+    }
+
+    .oxd-main-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .oxd-main-menu-item:hover {
+      background-color: #fff7ed;
+      color: #ff791a;
+    }
+
+    .oxd-main-menu-item.active {
+      background: linear-gradient(135deg, #ff791a 0%, #eb5a00 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(255, 121, 26, 0.25);
+    }
+
+    .oxd-main-menu-icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .oxd-layout-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .oxd-topbar {
+      height: 64px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .oxd-topbar-header-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .oxd-topbar-userarea {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .oxd-userdropdown {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    .oxd-userdropdown-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ff791a;
+    }
+
+    .oxd-userdropdown-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .oxd-layout-context {
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .oxd-sheet {
+      background-color: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .oxd-sheet-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .balance-badge {
+      background-color: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .form-control {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: #ff791a;
+      box-shadow: 0 0 0 3px rgba(255, 121, 26, 0.15);
+    }
+
+    .btn-submit-leave {
+      background: linear-gradient(135deg, #ff791a 0%, #eb5a00 100%);
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 121, 26, 0.3);
+      transition: all 0.2s;
+      align-self: flex-start;
+    }
+
+    .btn-submit-leave:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 121, 26, 0.4);
+    }
+
+    /* Alert Banner */
+    .leave-alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .leave-alert.hidden {
+      display: none;
+    }
+
+    .leave-alert.error {
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+    }
+
+    .leave-alert.success {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #16a34a;
+    }
+
+    .leave-alert.warning {
+      background-color: #fffbe6;
+      border: 1px solid #ffe58f;
+      color: #d48806;
+    }
+
+    /* Leave Table */
+    .leave-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    .leave-table th {
+      background-color: #f8fafc;
+      padding: 10px 14px;
+      color: #475569;
+      font-weight: 700;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .leave-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #1e293b;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    .status-approved {
+      background-color: #dcfce7;
+      color: #15803d;
+    }
+
+    .status-pending {
+      background-color: #fef3c7;
+      color: #b45309;
+    }
+  </style>
+</head>
+<body>
+  <div class="oxd-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="oxd-sidepanel">
+      <div class="oxd-sidepanel-header">
+        <img src="images/ohrm_branding.png" alt="OrangeHRM Logo" class="oxd-sidepanel-logo">
+      </div>
+      <ul class="oxd-main-menu">
+        <li>
+          <a href="dashboard.html" class="oxd-main-menu-item">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="leave.html" class="oxd-main-menu-item active">
+            <svg class="oxd-main-menu-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+            <span>Leave</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Container -->
+    <div class="oxd-layout-container">
+
+      <!-- Topbar Header -->
+      <header class="oxd-topbar">
+        <h2 class="oxd-topbar-header-title">Apply Leave</h2>
+        <div class="oxd-topbar-userarea">
+          <div class="oxd-userdropdown" id="userDropdown">
+            <img src="images/default-photo.png" alt="Profile" class="oxd-userdropdown-img">
+            <span class="oxd-userdropdown-name">Paul Collings</span>
+          </div>
+          <a href="index.html" id="logoutBtn" style="color: #ef4444; font-weight: 700; text-decoration: none;">Logout</a>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="oxd-layout-context">
+
+        <!-- Apply Leave Form Sheet -->
+        <div class="oxd-sheet">
+          <div class="oxd-sheet-title">
+            <span>📝 Leave Application</span>
+            <span class="balance-badge" id="leaveBalanceBadge">Balance: 12.0 Days</span>
+          </div>
+
+          <!-- Alert Banners -->
+          <div class="leave-alert error hidden" id="leaveErrorBanner">
+            <span>⚠️</span> <span id="leaveErrorMsg">Invalid date range. End date cannot be before start date.</span>
+          </div>
+
+          <div class="leave-alert warning hidden" id="leaveFrictionBanner">
+            <span>⚠️</span> <span>Rapid leave submit detected. Please review your request details carefully.</span>
+          </div>
+
+          <div class="leave-alert success hidden" id="leaveSuccessBanner">
+            <span>✅</span> <span id="leaveSuccessMsg">Leave request submitted successfully!</span>
+          </div>
+
+          <form id="leaveForm" onsubmit="return false;">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="leaveTypeSelect">Leave Type</label>
+                <select id="leaveTypeSelect" class="form-control">
+                  <option value="US - Annual Leave">US - Annual Leave</option>
+                  <option value="US - Sick Leave">US - Sick Leave</option>
+                  <option value="US - Personal Leave">US - Personal Leave</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="startDateInput">From Date</label>
+                <input type="date" id="startDateInput" class="form-control" value="2026-08-01">
+              </div>
+
+              <div class="form-group">
+                <label for="endDateInput">To Date</label>
+                <input type="date" id="endDateInput" class="form-control" value="2026-08-05">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label for="commentsInput">Comments</label>
+              <textarea id="commentsInput" class="form-control" rows="2" placeholder="Optional notes for manager..."></textarea>
+            </div>
+
+            <button type="button" class="btn-submit-leave" id="applyLeaveBtn">Apply Leave</button>
+          </form>
+        </div>
+
+        <!-- Existing Leave Requests Sheet -->
+        <div class="oxd-sheet">
+          <div class="oxd-sheet-title">
+            <span>📋 Recent Leave Requests</span>
+          </div>
+
+          <table class="leave-table">
+            <thead>
+              <tr>
+                <th>Date Applied</th>
+                <th>Leave Type</th>
+                <th>Days</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="leaveTableBody">
+              <tr>
+                <td>2026-07-15</td>
+                <td>US - Annual Leave</td>
+                <td>2.0</td>
+                <td><span class="status-badge status-approved">Approved</span></td>
+              </tr>
+              <tr>
+                <td>2026-07-28</td>
+                <td>US - Sick Leave</td>
+                <td>1.0</td>
+                <td><span class="status-badge status-pending">Pending</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const applyBtn = document.getElementById('applyLeaveBtn');
+    const startDateInput = document.getElementById('startDateInput');
+    const endDateInput = document.getElementById('endDateInput');
+    const leaveErrorBanner = document.getElementById('leaveErrorBanner');
+    const leaveErrorMsg = document.getElementById('leaveErrorMsg');
+    const leaveFrictionBanner = document.getElementById('leaveFrictionBanner');
+    const leaveSuccessBanner = document.getElementById('leaveSuccessBanner');
+    const leaveTableBody = document.getElementById('leaveTableBody');
+    const leaveTypeSelect = document.getElementById('leaveTypeSelect');
+    const leaveBalanceBadge = document.getElementById('leaveBalanceBadge');
+
+    let currentBalance = 12.0;
+    let clickTimestamps = [];
+
+    applyBtn.addEventListener('click', () => {
+      const now = Date.now();
+      clickTimestamps.push(now);
+      clickTimestamps = clickTimestamps.filter(t => now - t < 2000);
+
+      leaveErrorBanner.classList.add('hidden');
+      leaveSuccessBanner.classList.add('hidden');
+
+      // Detect rapid click friction
+      if (clickTimestamps.length >= 3) {
+        leaveFrictionBanner.classList.remove('hidden');
+      }
+
+      const start = new Date(startDateInput.value);
+      const end = new Date(endDateInput.value);
+
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        leaveErrorMsg.textContent = 'Please select valid dates.';
+        leaveErrorBanner.classList.remove('hidden');
+        return;
+      }
+
+      if (end < start) {
+        leaveErrorMsg.textContent = 'Invalid date range. End date cannot be before start date.';
+        leaveErrorBanner.classList.remove('hidden');
+        return;
+      }
+
+      const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+      if (diffDays > currentBalance) {
+        leaveErrorMsg.textContent = 'Insufficient leave balance for requested duration.';
+        leaveErrorBanner.classList.remove('hidden');
+        return;
+      }
+
+      // Success logic
+      currentBalance -= diffDays;
+      leaveBalanceBadge.textContent = `Balance: ${currentBalance.toFixed(1)} Days`;
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${todayStr}</td>
+        <td>${leaveTypeSelect.value}</td>
+        <td>${diffDays.toFixed(1)}</td>
+        <td><span class="status-badge status-pending">Pending</span></td>
+      `;
+      leaveTableBody.insertBefore(newRow, leaveTableBody.firstChild);
+
+      leaveSuccessBanner.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>

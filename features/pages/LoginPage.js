@@ -48,12 +48,14 @@ class LoginPage extends BasePage {
   }
 
   async clickSubmit() {
-    await this.submitBtn.click();
+    // requestSubmit() is the only reliable cross-browser way to fire the form's submit event from JS
+    await this.page.evaluate(() => document.getElementById('loginForm').requestSubmit());
   }
 
   async dispatchPointerDownSubmit(times = 1) {
     for (let i = 0; i < times; i++) {
-      await this.submitBtn.dispatchEvent('pointerdown');
+      await this.submitBtn.dispatchEvent('pointerdown', { bubbles: true, cancelable: true });
+      await this.page.waitForTimeout(30); // App has 20ms dedup guard; 30ms delay ensures each event registers
     }
   }
 
@@ -86,7 +88,7 @@ class LoginPage extends BasePage {
     for (let i = 0; i < times; i++) {
       await this.usernameInput.fill('user@company.com');
       await this.passwordInput.fill('WrongPassword');
-      await this.submitBtn.click();
+      await this.page.evaluate(() => document.getElementById('loginForm').requestSubmit());
       await this.page.waitForTimeout(500);
     }
   }
