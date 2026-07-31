@@ -11,7 +11,9 @@
     "test:bdd:dashboard": "cucumber-js --tags \"@dashboard\"",
     "test:bdd:leave": "cucumber-js --tags \"@leave\"",
     "test:bdd:login": "cucumber-js --tags \"@login\"",
-    "adversary": "node scripts/adversary/run.js"
+    "adversary": "node scripts/adversary/run.js",
+    "manual:replay": "node scripts/manual-replay.js",
+    "metrics": "node scripts/metrics/collect.js"
   },
   "keywords": [],
   "author": "",

@@ -494,5 +494,16 @@
       leaveSuccessBanner.classList.remove('hidden');
     });
   </script>
+  <script src="frustration-detector.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      FrustrationDetector.init({
+        pageName: 'leave',
+        rageTargets: ['#applyLeaveBtn'],
+        cancelTargets: ['#logoutBtn'],
+        jitterZone: '.oxd-layout-context'
+      });
+    });
+  </script>
 </body>
 </html>

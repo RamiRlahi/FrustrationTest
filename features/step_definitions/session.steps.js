@@ -41,6 +41,7 @@ Then('the recorder status indicator should show recording active', async functio
 });
 
 Then('the recorder event counter should start incrementing on user interactions', async function () {
+  await this.loginPage.fillEmail('test@company.com');
   await expect(this.loginPage.recEventCount).not.toHaveText('0');
 });
 

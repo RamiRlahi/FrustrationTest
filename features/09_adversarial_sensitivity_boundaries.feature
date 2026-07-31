@@ -21,7 +21,7 @@ Feature: Adversarial Sensitivity Boundaries and Anti-False-Positive Rules
       | loginFailThenSucceed   | silent         | 2 failures + success correctly suppresses |
       | loginFailExactThreshold| fired          | 3 failures correctly triggers             |
       | gentleMouseMovement    | silent         | Smooth arc produces zero direction changes|
-      | borderlineJitter       | silent         | 5 zigzag moves correctly stays below      |
+      | borderlineJitter       | silent         | 5 zigzag moves (4 reversals) correctly stays below |
       | backtrackTwice         | silent         | 2 cancel clicks correctly produces no     |
       | backtrackTimeout       | silent         | Counter resets after 2s gap               |
       | surveyDoesNotReTrigger | suppressed     | Survey correctly suppressed after dismiss |

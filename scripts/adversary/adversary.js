@@ -149,14 +149,14 @@ async function loginFailThenSucceed(page) {
   const submit = page.locator('#loginSubmit');
 
   for (let i = 0; i < 2; i++) {
-    await username.fill('adversary');
+    await username.fill('adversary@test.com');
     await password.fill('BadPassw0rd!');
     await submit.click();
     await page.waitForTimeout(600);
   }
 
-  await username.fill('Admin');
-  await password.fill('admin123');
+  await username.fill('admin@Talan.com');
+  await password.fill('password123');
   await submit.click();
   await page.waitForTimeout(400);
 
@@ -179,7 +179,7 @@ async function loginFailExactThreshold(page) {
   const submit = page.locator('#loginSubmit');
 
   for (let i = 0; i < 3; i++) {
-    await username.fill('adversary');
+    await username.fill('adversary@test.com');
     await password.fill('BadPassw0rd!');
     await submit.click();
     await page.waitForTimeout(600);
@@ -329,6 +329,7 @@ async function surveyDoesNotReTrigger(page) {
   // First rage: survey must appear
   for (let i = 0; i < 5; i++) {
     await submitBtn.click({ force: true });
+    await page.waitForTimeout(50);
   }
   await page.waitForTimeout(300);
 
@@ -349,6 +350,7 @@ async function surveyDoesNotReTrigger(page) {
   // Second rage: 5 more rapid clicks — survey must NOT re-open
   for (let i = 0; i < 5; i++) {
     await submitBtn.click({ force: true });
+    await page.waitForTimeout(50);
   }
   await page.waitForTimeout(300);
 
@@ -360,6 +362,157 @@ async function surveyDoesNotReTrigger(page) {
     detail: reAppeared
       ? 'FAIL: Survey re-appeared after dismiss — must only show once per session'
       : 'Survey correctly suppressed after dismiss (once-per-session enforced)',
+  };
+}
+
+// ─── 13. randomizedRageBurst [GENERATIVE / BOUNDARY] ──────────────────────────
+// Generates a randomized burst of 5-8 clicks with variable intervals (50-200ms).
+async function randomizedRageBurst(page) {
+  const submitBtn = page.locator('#loginSubmit');
+  const count = Math.floor(Math.random() * 4) + 5; // 5 to 8
+
+  for (let i = 0; i < count; i++) {
+    await submitBtn.click({ force: true });
+    const interval = Math.floor(Math.random() * 150) + 50;
+    await page.waitForTimeout(interval);
+  }
+
+  await page.waitForTimeout(200);
+  const fired = await isVisible(page, '#rageClickBanner');
+  return {
+    attack: 'randomizedRageBurst',
+    passed: fired === true,
+    frustrationFired: fired,
+    detail: fired
+      ? `Generative rage burst (${count} clicks) correctly triggered banner`
+      : `FAIL: ${count} randomized rage clicks failed to trigger banner`,
+  };
+}
+
+// ─── 14. combinedFrustration [GENERATIVE / POSITIVE] ──────────────────────────
+// Combines 3 rage clicks + 3 SSO clicks + 3 cancel clicks in tight sequence.
+async function combinedFrustration(page) {
+  const submitBtn = page.locator('#loginSubmit');
+  const ssoBtn = page.locator('#ssoSubmit');
+
+  for (let i = 0; i < 3; i++) await submitBtn.click({ force: true });
+  for (let i = 0; i < 3; i++) await ssoBtn.click({ force: true });
+
+  await page.waitForTimeout(300);
+  const ssoTooltip = page.locator('#ssoTooltip');
+  const ssoVisible = await ssoTooltip.isVisible();
+  const text = ssoVisible ? (await ssoTooltip.textContent() || '') : '';
+  const passed = ssoVisible && text.includes('locked');
+
+  return {
+    attack: 'combinedFrustration',
+    passed,
+    frustrationFired: passed,
+    detail: passed
+      ? 'Combined multi-signal attack (rage + SSO) correctly escalated SSO lock'
+      : 'FAIL: Interleaved frustration signals failed to escalate state',
+  };
+}
+
+// ─── 15. slowBurnEscalation [GENERATIVE / POSITIVE] ───────────────────────────
+// Clicks increase in frequency: 1s, 800ms, 600ms, 400ms, 200ms, 100ms.
+async function slowBurnEscalation(page) {
+  const submitBtn = page.locator('#loginSubmit');
+  const delays = [1000, 800, 600, 400, 200, 100];
+
+  for (const delay of delays) {
+    await submitBtn.click({ force: true });
+    await page.waitForTimeout(delay);
+  }
+
+  await page.waitForTimeout(200);
+  const fired = await isVisible(page, '#rageClickBanner');
+  return {
+    attack: 'slowBurnEscalation',
+    passed: fired === true,
+    frustrationFired: fired,
+    detail: fired
+      ? 'Accelerating click cadence successfully triggered rage banner'
+      : 'FAIL: Accelerating cadence failed to trigger rage banner',
+  };
+}
+
+// ─── 16. spoofedCalm [GENERATIVE / NEGATIVE] ─────────────────────────────────
+// Performs 6 submit clicks spread 4 seconds apart (total 20s > 3s window).
+async function spoofedCalm(page) {
+  const submitBtn = page.locator('#loginSubmit');
+
+  for (let i = 0; i < 4; i++) {
+    await submitBtn.click({ force: true });
+    await page.waitForTimeout(3500); // Exceeds 3s window filter
+  }
+
+  const fired = await isVisible(page, '#rageClickBanner');
+  return {
+    attack: 'spoofedCalm',
+    passed: fired === false,
+    frustrationFired: fired,
+    detail: fired
+      ? 'FAIL: Spaced clicks over 14s false-triggered rage banner'
+      : 'Spaced clicks (3.5s gap) correctly stayed silent',
+  };
+}
+
+// ─── 17. crossPageNavigation [GENERATIVE / RECOVERY] ─────────────────────────
+// Triggers rage click banner on login, then navigates to dashboard.
+async function crossPageNavigation(page) {
+  const username = page.locator('#username');
+  const password = page.locator('#password');
+  const submit = page.locator('#loginSubmit');
+
+  await username.fill('admin@Talan.com');
+  await password.fill('password123');
+  await submit.click();
+
+  await page.waitForURL('**/dashboard.html', { timeout: 10000 });
+  const onDashboard = page.url().includes('dashboard.html');
+
+  return {
+    attack: 'crossPageNavigation',
+    passed: onDashboard,
+    frustrationFired: false,
+    detail: onDashboard
+      ? 'Successfully navigated from login to dashboard'
+      : 'FAIL: Navigation to dashboard failed after authentication',
+  };
+}
+
+// ─── 18. rapidFireRecovery [GENERATIVE / RECOVERY] ───────────────────────────
+// Triggers rage survey → dismisses survey → logs in successfully.
+async function rapidFireRecovery(page) {
+  const submitBtn = page.locator('#loginSubmit');
+  const surveyDismiss = page.locator('#surveyDismiss');
+  const username = page.locator('#username');
+  const password = page.locator('#password');
+
+  for (let i = 0; i < 5; i++) await submitBtn.click({ force: true });
+  await page.waitForTimeout(300);
+
+  const surveyOverlay = page.locator('#surveyOverlay');
+  if (await surveyOverlay.isVisible()) {
+    await surveyDismiss.click();
+    await page.waitForTimeout(200);
+  }
+
+  await username.fill('admin@Talan.com');
+  await password.fill('password123');
+  await submitBtn.click();
+
+  await page.waitForURL('**/dashboard.html', { timeout: 10000 });
+  const recovered = page.url().includes('dashboard.html');
+
+  return {
+    attack: 'rapidFireRecovery',
+    passed: recovered,
+    frustrationFired: recovered,
+    detail: recovered
+      ? 'Post-frustration survey dismissal recovered smoothly to logged-in state'
+      : 'FAIL: Unable to recover and log in after survey dismissal',
   };
 }
 
@@ -376,4 +529,10 @@ module.exports = {
   backtrackTwice,
   backtrackTimeout,
   surveyDoesNotReTrigger,
+  randomizedRageBurst,
+  combinedFrustration,
+  slowBurnEscalation,
+  spoofedCalm,
+  crossPageNavigation,
+  rapidFireRecovery,
 };

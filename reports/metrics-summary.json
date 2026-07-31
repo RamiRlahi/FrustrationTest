@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-07-31T13:31:31.549Z",
+  "approaches": {
+    "manual": {
+      "approach": "Manual Exploratory Testing (SBET)",
+      "totalCount": 17,
+      "passedCount": 17,
+      "failedCount": 0,
+      "tp": 16,
+      "fp": 0,
+      "tn": 1,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "avgExecutionTimeMs": 12500,
+      "originalityScore": "High (Discovered ambiguous trackpad & double-click edge cases)"
+    },
+    "playwright": {
+      "approach": "Automated Playwright E2E & BDD Suite",
+      "totalCount": 6,
+      "passedCount": 6,
+      "failedCount": 0,
+      "tp": 15,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "avgExecutionTimeMs": 1317.83,
+      "originalityScore": "Medium (Validates regression stability across Chrome/Firefox)"
+    },
+    "adversary": {
+      "approach": "Adversarial AI (Generative Sequence Model)",
+      "totalCount": 18,
+      "passedCount": 18,
+      "failedCount": 0,
+      "tp": 6,
+      "fp": 0,
+      "tn": 12,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "avgExecutionTimeMs": 2400,
+      "originalityScore": "Very High (Uncovered mathematical window reset & 1-below-threshold edge cases)"
+    }
+  }
+}

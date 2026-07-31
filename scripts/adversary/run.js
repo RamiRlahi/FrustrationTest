@@ -33,6 +33,12 @@ const ATTACKS = [
   { fn: attacks.backtrackTwice,          label: '10. backtrackTwice         ', type: 'BOUNDARY'  },
   { fn: attacks.backtrackTimeout,        label: '11. backtrackTimeout       ', type: 'RESET'     },
   { fn: attacks.surveyDoesNotReTrigger,  label: '12. surveyDoesNotReTrigger ', type: 'RECOVERY'  },
+  { fn: attacks.randomizedRageBurst,     label: '13. randomizedRageBurst    ', type: 'BOUNDARY'  },
+  { fn: attacks.combinedFrustration,     label: '14. combinedFrustration    ', type: 'POSITIVE'  },
+  { fn: attacks.slowBurnEscalation,      label: '15. slowBurnEscalation     ', type: 'POSITIVE'  },
+  { fn: attacks.spoofedCalm,             label: '16. spoofedCalm            ', type: 'NEGATIVE'  },
+  { fn: attacks.crossPageNavigation,     label: '17. crossPageNavigation    ', type: 'RECOVERY'  },
+  { fn: attacks.rapidFireRecovery,       label: '18. rapidFireRecovery      ', type: 'RECOVERY'  },
 ];
 
 // ─── ANSI colour helpers ──────────────────────────────────────────────────────

@@ -73,18 +73,18 @@ const server = http.createServer((req, res) => {
         const cancelClicks = features.obs_cancel_clicks || 0;
         const failedAttempts = features.failed_attempts || 0;
 
-        if (submitClicks >= 5) score += 0.45;
+        if (submitClicks >= 5) score += 0.55;
         else if (submitClicks >= 3) score += 0.25;
 
-        if (ssoClicks >= 3) score += 0.35;
+        if (ssoClicks >= 3) score += 0.55;
         else if (ssoClicks >= 1) score += 0.15;
 
-        if (reversals >= 5) score += 0.35;
+        if (reversals >= 5) score += 0.55;
         else if (reversals >= 3) score += 0.20;
 
         if (bursts >= 1) score += 0.25;
-        if (cancelClicks >= 3) score += 0.30;
-        if (failedAttempts >= 3) score += 0.35;
+        if (cancelClicks >= 3) score += 0.50;
+        if (failedAttempts >= 3) score += 0.55;
 
         const probability = Math.min(1.0, score);
         const isFrustrated = probability >= 0.50;

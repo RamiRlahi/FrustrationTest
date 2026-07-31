@@ -559,5 +559,16 @@
       window.location.href = 'index.html';
     });
   </script>
+  <script src="frustration-detector.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      FrustrationDetector.init({
+        pageName: 'dashboard',
+        rageTargets: ['#punchBtn'],
+        cancelTargets: ['#logoutBtn'],
+        jitterZone: '.oxd-layout-context'
+      });
+    });
+  </script>
 </body>
 </html>

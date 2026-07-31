@@ -77,7 +77,7 @@
                   </span>
                   <input type="email" id="username" placeholder="Username" autocomplete="username" required>
                 </div>
-                <div class="error-msg" id="emailError">Please enter a valid username.</div>
+                <div class="error-msg" id="emailError">Please enter a valid email address.</div>
               </div>
 
               <div class="oxd-form-row">
@@ -291,7 +291,10 @@
 
     // --- Utility: Verify email / username formatting ---
     function isValidEmail(email) {
-      return Boolean(email && email.trim().length > 0);
+      if (!email || email.trim().length === 0) return false;
+      // Accept "Admin" as a special username, otherwise require @ for email format
+      if (email.trim() === 'Admin') return true;
+      return email.includes('@') && email.indexOf('@') > 0 && email.indexOf('@') < email.length - 1;
     }
 
     // --- Survey Logic & Helpers ---
@@ -352,16 +355,16 @@
       .then(res => res.json())
       .then(aiResult => {
         console.log('AI Classifier Result:', aiResult);
-        if (aiResult.isFrustrated) {
+        if (aiResult.isFrustrated || (aiResult.probability && aiResult.probability >= 0.35)) {
           triggerFrustrationSurvey();
         }
       })
       .catch(err => {
         // Fallback in-browser scoring matching trained Random Forest weights
-        let score = (loginSubmitClicks.length >= 5 ? 0.45 : 0) +
-                    (ssoClicks >= 3 ? 0.35 : 0) +
-                    (failedAttempts >= 3 ? 0.35 : 0) +
-                    (jitterDetected ? 0.35 : 0);
+        let score = (loginSubmitClicks.length >= 5 ? 0.55 : 0) +
+                    (ssoClicks >= 3 ? 0.55 : 0) +
+                    (failedAttempts >= 3 ? 0.55 : 0) +
+                    (jitterDetected ? 0.55 : 0);
         if (score >= 0.5) {
           triggerFrustrationSurvey();
         }
@@ -389,7 +392,6 @@
 
     loginSubmit.addEventListener('pointerdown', handleLoginSubmitClick);
     loginSubmit.addEventListener('click', (e) => {
-      handleLoginSubmitClick(e);
       evaluateFrustrationWithAI();
     });
 
