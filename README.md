@@ -67,8 +67,8 @@ npm run start
 Open application at `http://localhost:3000`.
 
 **Demo Credentials**:
-- Username: `Admin`
-- Password: `admin123`
+- Username: `Admin` or `admin@Talan.com`
+- Password: `password123`
 
 ---
 

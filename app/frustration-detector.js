@@ -41,24 +41,24 @@ var FrustrationDetector = (function () {
     jitterZone: null,
   };
 
-  let cfg = {};
+  let config = {};
 
   // ── State ───────────────────────────────────────────────────────────────
-  let surveySeen = false;
-  let rageClicks = [];
-  let lastRageTs = 0;
-  let cancelClicks = 0;
-  let cancelTimeout = null;
-  let mousePath = [];
+  let surveyDisplayed = false;
+  let recentSubmitClicks = [];
+  let lastPointerDownTimestamp = 0;
+  let cancelClickCount = 0;
+  let cancelResetTimer = null;
+  let mouseMovementHistory = [];
   let jitterDetected = false;
-  let failedAttempts = 0;
+  let failedAttemptCount = 0;
 
   // Recorder state
-  let isRecording = false;
-  let recordingStart = 0;
+  let recordingActive = false;
+  let recordingStartTime = 0;
   let recordedEvents = [];
   let recorderTimer = null;
-  let frustrationTriggersOccurred = {
+  let frustrationTriggers = {
     rageClick: false,
     ssoLocked: false,
     magicLink: false,
@@ -208,13 +208,13 @@ var FrustrationDetector = (function () {
   // ── AI Evaluation ───────────────────────────────────────────────────────
   function evaluateFrustrationWithAI() {
     const payload = {
-      obs_submit_clicks: rageClicks.length,
+      obs_submit_clicks: recentSubmitClicks.length,
       obs_sso_clicks: 0,
-      obs_cancel_clicks: cancelClicks,
+      obs_cancel_clicks: cancelClickCount,
       obs_jitter_reversals: jitterDetected ? 5 : 0,
-      obs_rapid_click_bursts: rageClicks.length >= cfg.rageThreshold ? 1 : 0,
-      failed_attempts: failedAttempts,
-      page: cfg.pageName,
+      obs_rapid_click_bursts: recentSubmitClicks.length >= config.rageThreshold ? 1 : 0,
+      failed_attempts: failedAttemptCount,
+      page: config.pageName,
     };
 
     fetch('/api/predict_frustration', {
@@ -232,16 +232,16 @@ var FrustrationDetector = (function () {
       .catch(() => {
         // Fallback in-browser scoring
         let score =
-          (rageClicks.length >= 5 ? 0.45 : 0) +
-          (cancelClicks >= 3 ? 0.3 : 0) +
+          (recentSubmitClicks.length >= 5 ? 0.45 : 0) +
+          (cancelClickCount >= 3 ? 0.3 : 0) +
           (jitterDetected ? 0.35 : 0);
         if (score >= 0.5) triggerSurvey();
       });
   }
 
   function triggerSurvey() {
-    if (surveySeen) return;
-    surveySeen = true;
+    if (surveyDisplayed) return;
+    surveyDisplayed = true;
     if (surveyOverlay) {
       surveyOverlay.style.display = 'flex';
       frustrationSlider.value = 3;
@@ -252,17 +252,17 @@ var FrustrationDetector = (function () {
 
   // ── Recording helpers ───────────────────────────────────────────────────
   function recordEvent(evt) {
-    if (!isRecording) return;
+    if (!recordingActive) return;
     recordedEvents.push(evt);
     if (recEventCount) recEventCount.textContent = recordedEvents.length;
   }
 
   function recordTrigger(type) {
-    frustrationTriggersOccurred[type] = true;
+    frustrationTriggers[type] = true;
     recordEvent({
       type: 'trigger',
       triggerType: type,
-      time: Date.now() - recordingStart,
+      time: Date.now() - recordingStartTime,
     });
   }
 
@@ -275,23 +275,23 @@ var FrustrationDetector = (function () {
 
   // ── Rage-click handler ──────────────────────────────────────────────────
   function attachRageDetection() {
-    cfg.rageTargets.forEach((selector) => {
+    config.rageTargets.forEach((selector) => {
       const els = document.querySelectorAll(selector);
       els.forEach((el) => {
         el.addEventListener('pointerdown', () => {
           const now = Date.now();
-          if (now - lastRageTs < 20) return;
-          lastRageTs = now;
-          rageClicks.push(now);
-          rageClicks = rageClicks.filter((t) => now - t < cfg.rageWindowMs);
+          if (now - lastPointerDownTimestamp < 20) return;
+          lastPointerDownTimestamp = now;
+          recentSubmitClicks.push(now);
+          recentSubmitClicks = recentSubmitClicks.filter((t) => now - t < config.rageWindowMs);
 
           recordEvent({
             type: 'click',
             target: selector,
-            time: now - recordingStart,
+            time: now - recordingStartTime,
           });
 
-          if (rageClicks.length >= cfg.rageThreshold) {
+          if (recentSubmitClicks.length >= config.rageThreshold) {
             window.rageclickdetected = true;
             recordTrigger('rageClick');
             showBanner(rageClickBanner);
@@ -308,28 +308,28 @@ var FrustrationDetector = (function () {
 
   // ── Cancel / backtrack handler ──────────────────────────────────────────
   function attachCancelDetection() {
-    cfg.cancelTargets.forEach((selector) => {
+    config.cancelTargets.forEach((selector) => {
       const els = document.querySelectorAll(selector);
       els.forEach((el) => {
         el.addEventListener('click', () => {
-          cancelClicks++;
-          if (cancelTimeout) clearTimeout(cancelTimeout);
+          cancelClickCount++;
+          if (cancelResetTimer) clearTimeout(cancelResetTimer);
 
           recordEvent({
             type: 'click',
             target: selector,
-            time: Date.now() - recordingStart,
+            time: Date.now() - recordingStartTime,
           });
 
-          if (cancelClicks >= cfg.cancelThreshold) {
+          if (cancelClickCount >= config.cancelThreshold) {
             recordTrigger('backtrack');
-            cancelClicks = 0;
+            cancelClickCount = 0;
             evaluateFrustrationWithAI();
           }
 
-          cancelTimeout = setTimeout(() => {
-            cancelClicks = 0;
-          }, cfg.cancelResetMs);
+          cancelResetTimer = setTimeout(() => {
+            cancelClickCount = 0;
+          }, config.cancelResetMs);
         });
       });
     });
@@ -337,20 +337,20 @@ var FrustrationDetector = (function () {
 
   // ── Jitter handler ──────────────────────────────────────────────────────
   function attachJitterDetection() {
-    if (!cfg.jitterZone) return;
-    const zone = document.querySelector(cfg.jitterZone);
+    if (!config.jitterZone) return;
+    const zone = document.querySelector(config.jitterZone);
     if (!zone) return;
 
     let lastMoveTime = 0;
 
     zone.addEventListener('mousemove', (e) => {
       // Recording
-      if (isRecording) {
+      if (recordingActive) {
         const now = Date.now();
         if (now - lastMoveTime > 50) {
           recordEvent({
             type: 'mousemove',
-            time: now - recordingStart,
+            time: now - recordingStartTime,
             x: e.clientX,
             y: e.clientY,
           });
@@ -360,15 +360,15 @@ var FrustrationDetector = (function () {
 
       if (jitterDetected) return;
 
-      mousePath.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-      if (mousePath.length > cfg.jitterSamples) mousePath.shift();
+      mouseMovementHistory.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+      if (mouseMovementHistory.length > config.jitterSamples) mouseMovementHistory.shift();
 
-      if (mousePath.length === cfg.jitterSamples) {
+      if (mouseMovementHistory.length === config.jitterSamples) {
         let directionChanges = 0;
-        for (let i = 2; i < mousePath.length; i++) {
-          const p1 = mousePath[i - 2];
-          const p2 = mousePath[i - 1];
-          const p3 = mousePath[i];
+        for (let i = 2; i < mouseMovementHistory.length; i++) {
+          const p1 = mouseMovementHistory[i - 2];
+          const p2 = mouseMovementHistory[i - 1];
+          const p3 = mouseMovementHistory[i];
           const v1 = { x: p2.x - p1.x, y: p2.y - p1.y };
           const v2 = { x: p3.x - p2.x, y: p3.y - p2.y };
           const m1 = Math.sqrt(v1.x * v1.x + v1.y * v1.y);
@@ -377,10 +377,10 @@ var FrustrationDetector = (function () {
             const dot = v1.x * v2.x + v1.y * v2.y;
             const cosTheta = Math.max(-1, Math.min(1, dot / (m1 * m2)));
             const angle = Math.acos(cosTheta) * (180 / Math.PI);
-            if (angle > cfg.jitterAngle) directionChanges++;
+            if (angle > config.jitterAngle) directionChanges++;
           }
         }
-        if (directionChanges >= cfg.jitterReversals) {
+        if (directionChanges >= config.jitterReversals) {
           jitterDetected = true;
           recordTrigger('mouseJitter');
           showBanner(mouseJitterBanner);
@@ -392,7 +392,7 @@ var FrustrationDetector = (function () {
 
   // ── Public API ──────────────────────────────────────────────────────────
   function init(options) {
-    cfg = Object.assign({}, DEFAULTS, options);
+    config = Object.assign({}, DEFAULTS, options);
     injectBanners();
     injectSurvey();
     attachRageDetection();
@@ -401,26 +401,26 @@ var FrustrationDetector = (function () {
 
     // Global click recorder (outside recorder widget)
     document.addEventListener('pointerdown', (e) => {
-      if (!isRecording) return;
+      if (!recordingActive) return;
       if (recWidget && recWidget.contains(e.target)) return;
       recordEvent({
         type: 'click',
         target: e.target.id ? '#' + e.target.id : e.target.tagName.toLowerCase(),
-        time: Date.now() - recordingStart,
+        time: Date.now() - recordingStartTime,
         x: e.clientX,
         y: e.clientY,
       });
     });
 
-    console.log(`[FrustrationDetector] Initialized on "${cfg.pageName}" page`);
+    console.log(`[FrustrationDetector] Initialized on "${config.pageName}" page`);
   }
 
   // Recorder controls (callable from host pages or tests)
   function startRecording() {
-    isRecording = true;
+    recordingActive = true;
     recordedEvents = [];
-    recordingStart = Date.now();
-    frustrationTriggersOccurred = {
+    recordingStartTime = Date.now();
+    frustrationTriggers = {
       rageClick: false,
       ssoLocked: false,
       magicLink: false,
@@ -430,20 +430,20 @@ var FrustrationDetector = (function () {
     recorderTimer = setInterval(() => {
       if (recDuration) {
         recDuration.textContent =
-          ((Date.now() - recordingStart) / 1000).toFixed(1) + 's';
+          ((Date.now() - recordingStartTime) / 1000).toFixed(1) + 's';
       }
     }, 100);
   }
 
   function stopRecording() {
-    isRecording = false;
+    recordingActive = false;
     if (recorderTimer) {
       clearInterval(recorderTimer);
       recorderTimer = null;
     }
     return {
-      durationMs: Date.now() - recordingStart,
-      frustrationDetected: { ...frustrationTriggersOccurred },
+      durationMs: Date.now() - recordingStartTime,
+      frustrationDetected: { ...frustrationTriggers },
       events: [...recordedEvents],
     };
   }
@@ -451,7 +451,7 @@ var FrustrationDetector = (function () {
   function saveRecording(name) {
     const data = stopRecording();
     data.name = name || 'session_' + Date.now();
-    data.page = cfg.pageName;
+    data.page = config.pageName;
     return fetch('/api/record', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -462,12 +462,12 @@ var FrustrationDetector = (function () {
   // Expose for tests
   function getState() {
     return {
-      surveySeen,
+      surveyDisplayed,
       jitterDetected,
-      rageClicks: rageClicks.length,
-      cancelClicks,
-      failedAttempts,
-      isRecording,
+      rageClicks: recentSubmitClicks.length,
+      cancelClicks: cancelClickCount,
+      failedAttempts: failedAttemptCount,
+      isRecording: recordingActive,
       recordedEvents: recordedEvents.length,
     };
   }
