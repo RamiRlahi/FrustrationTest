@@ -3,20 +3,6 @@
 An end-to-end user frustration detection system and multi-paradigm QA benchmarking suite integrated into an enterprise replica of **OrangeHRM**.
 
 ---
-
-## 🎯 Deliverables Summary
-
-- ✅ **OrangeHRM + Frustration Detector**: Shared real-time detection module (`app/frustration-detector.js`) integrated across Login, Dashboard, and Leave pages.
-- ✅ **Manual Exploratory Test Suite**: Session recorder + formal charter with 8+ ambiguous scenarios ([docs/test-charter.md](file:///c:/Users/rami/Desktop/int102/docs/test-charter.md)) + replay harness (`scripts/manual-replay.js`).
-- ✅ **Automated Playwright Suite**: 20 tests including deterministic E2E, Cucumber BDD features, and stochastic randomized tests (`tests/07_randomized_interactions.spec.js`).
-- ✅ **Adversarial AI Audit Model**: 18 attack vectors across POSITIVE, NEGATIVE, BOUNDARY, RESET, and RECOVERY categories (`scripts/adversary/adversary.js`).
-- ✅ **Comparative Evaluation & Pipeline**: Unified metrics pipeline (`scripts/metrics/collect.js`) generating precision, recall, F1 score, and latency benchmarks ([reports/metrics-summary.md](file:///c:/Users/rami/Desktop/int102/reports/metrics-summary.md)).
-- ✅ **Final Internship Report**: Comprehensive technical document ([docs/final-report.md](file:///c:/Users/rami/Desktop/int102/docs/final-report.md)).
-- ✅ **Executive Summary**: 2-page executive summary ([docs/executive-summary.md](file:///c:/Users/rami/Desktop/int102/docs/executive-summary.md)).
-- ✅ **10-Minute Demonstration Script**: Step-by-step presentation script ([docs/demo-script.md](file:///c:/Users/rami/Desktop/int102/docs/demo-script.md)).
-
----
-
 ## 📁 Project Structure
 
 ```text
@@ -67,7 +53,7 @@ npm run start
 Open application at `http://localhost:3000`.
 
 **Demo Credentials**:
-- Username: `Admin` or `admin@Talan.com`
+- Username: `admin@Talan.com`
 - Password: `password123`
 
 ---
