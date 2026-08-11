@@ -1,19 +1,5 @@
 'use strict';
 
-/**
- * UNIFIED METRICS PIPELINE
- * =======================
- * Aggregates benchmark results from:
- * 1. Manual Exploratory Testing (scripts/manual-replay.js -> test-results/manual-replay-report.json)
- * 2. Automated Playwright Suite (playwright metrics -> test-results/playwright-metrics.json)
- * 3. Adversarial AI Audit (adversary runner -> test-results/adversary-report.json)
- *
- * Computes comparative precision, recall, F1, execution time, and bug originality metrics.
- * Outputs: reports/metrics-summary.json & reports/metrics-summary.md
- *
- * Usage: node scripts/metrics/collect.js
- */
-
 const fs = require('fs');
 const path = require('path');
 
@@ -44,7 +30,6 @@ function processMetrics() {
   const playwrightData = safeReadJson(PLAYWRIGHT_REPORT);
   const adversaryData = safeReadJson(ADVERSARY_REPORT);
 
-  // 1. Manual Testing Metrics
   const manual = {
     approach: 'Manual Exploratory Testing (SBET)',
     totalCount: manualData ? manualData.totalSessions : 17,
@@ -57,11 +42,10 @@ function processMetrics() {
     precision: manualData ? manualData.metrics.precision : 1.0,
     recall: manualData ? manualData.metrics.recall : 1.0,
     f1: manualData ? manualData.metrics.f1 : 1.0,
-    avgExecutionTimeMs: 12500, // Average manual session duration ~12.5s
+    avgExecutionTimeMs: 12500,
     originalityScore: 'High (Discovered ambiguous trackpad & double-click edge cases)',
   };
 
-  // 2. Automated Playwright Suite Metrics
   const pwSummary = playwrightData ? playwrightData.summary : null;
   const pwTotal = pwSummary ? pwSummary.total : 20;
   const pwPassed = pwSummary ? pwSummary.passed : 20;
@@ -90,12 +74,10 @@ function processMetrics() {
     originalityScore: 'Medium (Validates regression stability across Chrome/Firefox)',
   };
 
-  // 3. Adversarial AI Audit Metrics
   const advChromium = adversaryData ? adversaryData.chromiumResults : [];
   const advTotal = advChromium.length || 18;
   const advPassed = advChromium.filter(r => r.passed).length || advTotal;
   const advFailed = advTotal - advPassed;
-  // Positives & Boundaries expect detection or suppression
   const advTP = advChromium.filter(r => ['POSITIVE', 'GENERATIVE'].includes(r.type) && r.passed).length || 10;
   const advTN = advChromium.filter(r => ['NEGATIVE', 'BOUNDARY', 'RESET', 'RECOVERY'].includes(r.type) && r.passed).length || 8;
   const advFP = advChromium.filter(r => ['NEGATIVE', 'BOUNDARY', 'RESET'].includes(r.type) && !r.passed).length || 0;
@@ -125,12 +107,10 @@ function processMetrics() {
     approaches: { manual, playwright, adversary },
   };
 
-  // Output JSON
   fs.mkdirSync(path.dirname(JSON_OUT), { recursive: true });
   fs.writeFileSync(JSON_OUT, JSON.stringify(aggregated, null, 2), 'utf-8');
   console.log(`[Metrics] Saved JSON summary to ${JSON_OUT}`);
 
-  // Generate Markdown summary
   const mdContent = `# Comparative Evaluation & Benchmark Metrics
 
 Date Generated: ${new Date().toLocaleDateString()}

@@ -1,29 +1,6 @@
-/**
- * Frustration Detector — Shared Module
- * =====================================
- * Portable frustration-detection engine for any OrangeHRM page.
- *
- * Usage:
- *   <script src="frustration-detector.js"></script>
- *   <script>
- *     FrustrationDetector.init({
- *       rageTargets: ['#punchBtn', '#applyLeaveBtn'],
- *       jitterZone:  '#mainContent',
- *       cancelTargets: ['#logoutBtn'],
- *       enableRecorder: false,
- *       pageName: 'dashboard'
- *     });
- *   </script>
- *
- * The module injects its own banner HTML and survey overlay if not already
- * present in the DOM, so host pages need zero extra markup.
- */
-
-// eslint-disable-next-line no-var
 var FrustrationDetector = (function () {
   'use strict';
 
-  // ── Configuration defaults ──────────────────────────────────────────────
   const DEFAULTS = {
     rageThreshold: 5,
     rageWindowMs: 3000,
@@ -43,7 +20,6 @@ var FrustrationDetector = (function () {
 
   let config = {};
 
-  // ── State ───────────────────────────────────────────────────────────────
   let surveyDisplayed = false;
   let recentSubmitClicks = [];
   let lastPointerDownTimestamp = 0;
@@ -53,7 +29,6 @@ var FrustrationDetector = (function () {
   let jitterDetected = false;
   let failedAttemptCount = 0;
 
-  // Recorder state
   let recordingActive = false;
   let recordingStartTime = 0;
   let recordedEvents = [];
@@ -66,7 +41,6 @@ var FrustrationDetector = (function () {
     backtrack: false,
   };
 
-  // ── DOM refs (created or found) ─────────────────────────────────────────
   let bannerContainer = null;
   let rageClickBanner = null;
   let mouseJitterBanner = null;
@@ -77,12 +51,10 @@ var FrustrationDetector = (function () {
   let surveySubmitBtn = null;
   let surveyFeedback = null;
 
-  // Recorder DOM
   let recWidget = null;
   let recEventCount = null;
   let recDuration = null;
 
-  // ── Inject HTML ─────────────────────────────────────────────────────────
   function injectBanners() {
     if (document.getElementById('fd-banner-container')) {
       bannerContainer = document.getElementById('fd-banner-container');
@@ -116,7 +88,6 @@ var FrustrationDetector = (function () {
     rageClickBanner = document.getElementById('fd-rageClickBanner');
     mouseJitterBanner = document.getElementById('fd-mouseJitterBanner');
 
-    // Animation keyframes
     if (!document.getElementById('fd-keyframes')) {
       const style = document.createElement('style');
       style.id = 'fd-keyframes';
@@ -205,7 +176,6 @@ var FrustrationDetector = (function () {
     });
   }
 
-  // ── AI Evaluation ───────────────────────────────────────────────────────
   function evaluateFrustrationWithAI() {
     const payload = {
       obs_submit_clicks: recentSubmitClicks.length,
@@ -230,7 +200,6 @@ var FrustrationDetector = (function () {
         }
       })
       .catch(() => {
-        // Fallback in-browser scoring
         let score =
           (recentSubmitClicks.length >= 5 ? 0.45 : 0) +
           (cancelClickCount >= 3 ? 0.3 : 0) +
@@ -250,7 +219,6 @@ var FrustrationDetector = (function () {
     }
   }
 
-  // ── Recording helpers ───────────────────────────────────────────────────
   function recordEvent(evt) {
     if (!recordingActive) return;
     recordedEvents.push(evt);
@@ -266,14 +234,12 @@ var FrustrationDetector = (function () {
     });
   }
 
-  // ── Show banner helper ──────────────────────────────────────────────────
   function showBanner(el) {
     if (!el) return;
     el.classList.remove('hidden');
     el.style.display = 'flex';
   }
 
-  // ── Rage-click handler ──────────────────────────────────────────────────
   function attachRageDetection() {
     config.rageTargets.forEach((selector) => {
       const els = document.querySelectorAll(selector);
@@ -306,7 +272,6 @@ var FrustrationDetector = (function () {
     });
   }
 
-  // ── Cancel / backtrack handler ──────────────────────────────────────────
   function attachCancelDetection() {
     config.cancelTargets.forEach((selector) => {
       const els = document.querySelectorAll(selector);
@@ -335,7 +300,6 @@ var FrustrationDetector = (function () {
     });
   }
 
-  // ── Jitter handler ──────────────────────────────────────────────────────
   function attachJitterDetection() {
     if (!config.jitterZone) return;
     const zone = document.querySelector(config.jitterZone);
@@ -344,7 +308,6 @@ var FrustrationDetector = (function () {
     let lastMoveTime = 0;
 
     zone.addEventListener('mousemove', (e) => {
-      // Recording
       if (recordingActive) {
         const now = Date.now();
         if (now - lastMoveTime > 50) {
@@ -390,7 +353,6 @@ var FrustrationDetector = (function () {
     });
   }
 
-  // ── Public API ──────────────────────────────────────────────────────────
   function init(options) {
     config = Object.assign({}, DEFAULTS, options);
     injectBanners();
@@ -399,7 +361,6 @@ var FrustrationDetector = (function () {
     attachCancelDetection();
     attachJitterDetection();
 
-    // Global click recorder (outside recorder widget)
     document.addEventListener('pointerdown', (e) => {
       if (!recordingActive) return;
       if (recWidget && recWidget.contains(e.target)) return;
@@ -415,7 +376,6 @@ var FrustrationDetector = (function () {
     console.log(`[FrustrationDetector] Initialized on "${config.pageName}" page`);
   }
 
-  // Recorder controls (callable from host pages or tests)
   function startRecording() {
     recordingActive = true;
     recordedEvents = [];
@@ -459,7 +419,6 @@ var FrustrationDetector = (function () {
     }).then((r) => r.json());
   }
 
-  // Expose for tests
   function getState() {
     return {
       surveyDisplayed,

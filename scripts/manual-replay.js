@@ -1,22 +1,11 @@
 'use strict';
 
-/**
- * MANUAL SESSION REPLAY & BENCHMARK HARNESS
- * =========================================
- * Loads all session JSON files recorded via the UI widget in `scripts/manual test schemes/`,
- * replays their event streams against the detection rules, and benchmarks accuracy,
- * precision, recall, and false positive metrics.
- *
- * Usage: node scripts/manual-replay.js
- */
-
 const fs = require('fs');
 const path = require('path');
 
 const SCHEMES_DIR = path.join(__dirname, 'manual test schemes');
 const OUTPUT_FILE = path.join(__dirname, '..', 'test-results', 'manual-replay-report.json');
 
-// Replay engine evaluating event streams against rule thresholds
 function replaySession(session) {
   const events = session.events || [];
   const expected = session.frustrationDetected || {};
@@ -29,7 +18,6 @@ function replaySession(session) {
     backtrack: false,
   };
 
-  // State
   let rageTimestamps = [];
   let ssoCount = 0;
   let cancelCount = 0;
@@ -41,7 +29,6 @@ function replaySession(session) {
       const t = evt.time || 0;
       const target = evt.target || '';
 
-      // 1. Rage Click Check (#loginSubmit, #punchBtn, #applyLeaveBtn)
       if (['#loginSubmit', '#punchBtn', '#applyLeaveBtn'].includes(target)) {
         rageTimestamps.push(t);
         rageTimestamps = rageTimestamps.filter((ts) => t - ts <= 3000);
@@ -50,7 +37,6 @@ function replaySession(session) {
         }
       }
 
-      // 2. SSO Lock Check (#ssoSubmit)
       if (target === '#ssoSubmit') {
         ssoCount++;
         if (ssoCount >= 3) {
@@ -58,7 +44,6 @@ function replaySession(session) {
         }
       }
 
-      // 3. Backtrack Check (#cancelButton, #logoutBtn)
       if (['#cancelButton', '#logoutBtn'].includes(target)) {
         if (t - lastCancelTime > 2000) cancelCount = 0;
         cancelCount++;
@@ -69,14 +54,12 @@ function replaySession(session) {
       }
     }
 
-    // 4. Trigger events recorded by front-end
     if (evt.type === 'trigger' && evt.triggerType) {
       if (evt.triggerType in detected) {
         detected[evt.triggerType] = true;
       }
     }
 
-    // 5. Mouse Jitter
     if (evt.type === 'mousemove') {
       mousePath.push({ x: evt.x, y: evt.y });
       if (mousePath.length > 20) mousePath.shift();
@@ -101,7 +84,6 @@ function replaySession(session) {
     }
   }
 
-  // Any frustration flag true = frustrated
   const expectedFrustrated = Object.values(expected).some(Boolean);
   const detectedFrustrated = Object.values(detected).some(Boolean);
 

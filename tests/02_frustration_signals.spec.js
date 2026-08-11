@@ -7,7 +7,7 @@ test.describe('Frustration Signal Detection Specs', () => {
   let loginPage;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('about:blank', { waitUntil: 'load' }); // Reset navigation state between tests (Firefox stability fix)
+    await page.goto('about:blank', { waitUntil: 'load' });
     loginPage = new LoginPage(page);
     await loginPage.navigate();
     await page.waitForSelector('#loginSubmit', { state: 'visible' });

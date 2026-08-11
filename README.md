@@ -6,35 +6,78 @@ An end-to-end user frustration detection system and multi-paradigm QA benchmarki
 ## 📁 Project Structure
 
 ```text
-.
-├── app/
-│   ├── index.html              # OrangeHRM Login Page & Detector
-│   ├── dashboard.html          # OrangeHRM Dashboard Page & Detector
-│   ├── leave.html              # OrangeHRM Leave Application Page & Detector
-│   ├── frustration-detector.js # Shared Real-time Frustration Detection Engine
-│   └── style.css               # OrangeHRM Design System Styling
-├── docs/
-│   ├── test-charter.md         # Manual Exploratory Charter & Ambiguous Scenarios
-│   ├── final-report.md         # Complete Internship Final Report
-│   ├── executive-summary.md    # 2-Page Executive Summary
-│   └── demo-script.md          # 10-Minute Technical Demonstration Script
-├── features/                   # Cucumber BDD Features & Step Definitions
-├── reports/
-│   ├── metrics-summary.md      # Comparative Performance Matrix (Markdown)
-│   └── metrics-summary.json    # Aggregated Benchmark Metrics (JSON)
-├── scripts/
-│   ├── adversary/              # Adversarial AI Attack Library & CLI Runner
-│   ├── manual test schemes/    # Saved Session Recorder JSON Recordings
-│   ├── manual-replay.js        # Manual Session Replay Benchmark Harness
-│   └── metrics/collect.js      # Unified Metrics Aggregation Pipeline
-├── shopper_intent_prediction/  # Random Forest ML Training Notebooks & Models
-├── tests/                      # Playwright End-to-End & Stochastic Tests
-├── server.js                   # Static Server & Frustration Predictor API
-├── playwright.config.js        # Playwright Configuration
-└── package.json
+FrustrationTest/
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
+│
+├── ⭐ app/
+│   ├── index.html
+│   ├── dashboard.html
+│   ├── leave.html
+│   ├── ⭐ frustration-detector.js
+│   └── style.css
+│
+├── ⭐ docs/
+│   ├── test-charter.md
+│   ├── ⭐ final-report.md
+│   ├── ⭐ executive-summary.md
+│   └── ⭐ demo-script.md
+│
+├── ⭐ features/
+│   ├── pages/
+│   │   ├── BasePage.js
+│   │   ├── DashboardPage.js
+│   │   ├── FrustrationSurveyModal.js
+│   │   ├── LeavePage.js
+│   │   └── LoginPage.js
+│   ├── step_definitions/
+│   │   ├── adversarial.steps.js
+│   │   ├── dashboard.steps.js
+│   │   ├── frustration.steps.js
+│   │   ├── hooks.js
+│   │   ├── leave.steps.js
+│   │   ├── login.steps.js
+│   │   ├── session.steps.js
+│   │   └── sso.steps.js
+│   └── *.feature
+│
+├── ⭐ reports/
+│   ├── ⭐ metrics-summary.md
+│   └── metrics-summary.json
+│
+├── ⭐ scripts/
+│   ├── ⭐ adversary/
+│   │   ├── adversary.js
+│   │   ├── run.js
+│   │   └── sandbox.js
+│   ├── manual test schemes/
+│   ├── ⭐ manual-replay.js
+│   └── metrics/
+│       └── collect.js
+│
+├── ⭐ shopper_intent_prediction/
+│   ├── ⭐ frustration_modeling.ipynb
+│   ├── frustration_modeling.py
+│   ├── login_frustration_modeling.py
+│   └── *.png
+│
+├── ⭐ tests/
+│   ├── reporters/
+│   │   └── metrics-reporter.js
+│   └── *.spec.js
+│
+├── .gitignore
+├── cucumber.js
+├── package.json
+├── playwright.config.js
+├── README.md
+├── research-benchmark.md
+├── server.js
+└── testing_comparison_report.md
 ```
 
----
+> **Note:** Folders and files marked with ⭐ represent the key deliverables, core algorithms, ML models, test suites, and reports highlighted for supervisor review.
 
 ## 🚀 Quick Start Guide
 
