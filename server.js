@@ -17,7 +17,7 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  // Handle session recording API
+  // handle recording session houni
   if (req.method === 'POST' && req.url === '/api/record') {
     let body = '';
     req.on('data', chunk => {

@@ -21,11 +21,9 @@ This internship project developed an intelligent **Frustration Detection System*
 
 ## 2. Core Technical Achievements
 
-1. **Integrated Detection Engine**: Deployed a lightweight, zero-dependency JavaScript detection module across Login, Dashboard, and Leave Management pages, paired with a Random Forest machine-learning model ($F_1 = 0.980$, $98.04\%$ 5-fold CV accuracy).
+1. **Integrated Detection Engine**: Deployed a lightweight, zero-dependency JavaScript detection module across Login, Dashboard, and Leave Management pages, paired with a Random Forest machine-learning model ($F_1 = 0.982$).
 2. **Session Recording & Replay**: Built an embedded Session Recorder that captures interaction streams and saves replayable JSON schemes for QA benchmark analysis.
 3. **Adversarial AI Audit Engine**: Engineered an automated adversarial testing bot capable of executing 18 attack vectors to stress-test mathematical thresholds and false-positive suppression rules.
-
-![Login Frustration Aggregated Confusion Matrix and Feature Importances](file:///C:/Users/rami/.gemini/antigravity-ide/brain/93a88a50-9b7f-4b44-9709-8e658eb75409/media__1785504970072.png)
 
 ---
 

@@ -1,11 +1,10 @@
 # Real-Time User Frustration Detection in Enterprise Web Applications: Architecture, Adversarial AI Auditing, and Multi-Paradigm Quality Assurance
 
-**Author:** Technical Engineering Intern  
-**Organization:** Talan / OrangeHRM Research Project  
+**Author:** Rami Riahi
+**Organization:** Talan Research Project  
 **Date:** July 2026  
-**Document Version:** 1.0 Final  
+**Document Version:** 1.0
 
----
 
 ## Abstract
 
@@ -18,9 +17,9 @@ To evaluate the system, we designed and implemented a three-tier testing framewo
 2. **Automated Playwright Suite**: Covering deterministic E2E visual flows and Gherkin-based BDD specifications.
 3. **Adversarial AI Audit Engine**: Executing 18 specialized attack vectors across positive, negative, boundary, window-reset, and recovery categories.
 
-Our comparative evaluation demonstrates that while automated E2E testing excels at regression validation ($3.8\text{s}$ mean execution time), Adversarial AI provides superior boundary sensitivity ($100\%$ precision, $2.4\text{s}$ per vector) and uncovers subtle algorithmic edge cases that evade conventional testing suites.
+Our comparative evaluation demonstrates that while automated E2E testing excels at regression validation, Adversarial AI provides superior boundary sensitivity 100\% precision and uncovers subtle algorithmic edge cases that evade conventional testing suites.
 
----
+
 
 ## 1. Introduction
 
@@ -39,18 +38,7 @@ The primary objectives of this internship were:
 
 ## 2. System Architecture & Frustration Engine
 
-```mermaid
-graph TD
-    User[User Interaction] --> Client[Client DOM / Canvas]
-    Client --> FD[Frustration Detector Engine]
-    FD --> Heuristics[Heuristic Rule Filters]
-    FD --> Recorder[Session Recorder Widget]
-    FD --> API[POST /api/predict_frustration]
-    API --> ML[Random Forest Classifier]
-    ML --> Response[Frustration Probability & Confidence]
-    Response --> UI[Dynamic Banners & Frustration Survey]
-    Recorder --> Schemes[scripts/manual test schemes/*.json]
-```
+![alt text](image.png)
 
 ### 2.1 Detection Heuristics
 The client-side engine (`frustration-detector.js`) monitors five interaction signals:

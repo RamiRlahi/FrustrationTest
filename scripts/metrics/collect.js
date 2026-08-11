@@ -152,16 +152,9 @@ Date Generated: ${new Date().toLocaleDateString()}
 | **Avg Execution Time** | ~12.5 seconds / session | ~3.8 seconds / test | ~2.4 seconds / attack |
 | **Originality of Findings** | High (Human intuition & edge cases) | Medium (Determinism & cross-browser) | Very High (Mathematical boundary stress) |
 
-## 2. Machine Learning Model Performance
-
-![Login Frustration Aggregated Confusion Matrix and Feature Importances](file:///C:/Users/rami/.gemini/antigravity-ide/brain/93a88a50-9b7f-4b44-9709-8e658eb75409/media__1785504970072.png)
-
-- **Accuracy**: $98.04\%$ (2440 True Calm, 2462 True Frustrated)
-- **Top Features**: \`obs_mouse_speed\`, \`obs_mouse_distance\`, \`obs_inputs\`, \`obs_sso_clicks\`, \`obs_clicks\`
-
 ---
 
-## 3. Key Analytical Insights
+## 2. Key Analytical Insights
 
 1. **Precision & False Positive Suppression**:
    - Both Automated Playwright and Adversarial AI achieved 100% precision with 0 False Positives on boundary cases.
